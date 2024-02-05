@@ -24,7 +24,7 @@
 
     <header>
         <div class="center">
-            <h1>Tox DB</h1>
+            <h1>ToxicBrowser</h1>
         </div>
     </header>
 
