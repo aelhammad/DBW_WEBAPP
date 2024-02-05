@@ -23,7 +23,7 @@
     </nav>
 
     <header>
-        <div class="center">
+        <div class="center" style="margin-top: 150px;">
             <h1>ToxicBrowser</h1>
         </div>
     </header>
@@ -52,7 +52,7 @@
             </div>
             <div class="nav">
                 <ul>
-                    <li><a href="#">Component Type</a>
+                    <li><a href="#">ComponentType</a>
                         <ul>
                             <li><a href="#">Submenu1</a></li>
                             <li><a href="#">Submenu2</a></li>
