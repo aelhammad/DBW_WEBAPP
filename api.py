@@ -1,6 +1,6 @@
 import requests
+import json
 import xml.etree.ElementTree as ET
-
 def get_compound_info(cid):
     # Retrieve compound information from PubChem
     url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/property/IUPACName,MolecularFormula,CanonicalSMILES,IsomericSMILES,InChIKey,MolecularWeight/JSON"
@@ -45,11 +45,11 @@ def get_chembl_id_by_inchikey(inchikey):
         return None
 
 # CID of the compound
-cid = 2244
+cid = 68749
 
-# Get compound information from PubChem
+    # Get compound information from PubChem
 compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key = get_compound_info(cid)
-
+'''
 if compound_name and chemical_formula:
     print("Name:", compound_name)
     print("Chemical Formula:", chemical_formula)
@@ -60,9 +60,54 @@ if compound_name and chemical_formula:
 
     # Search for compound activities in ChEMBL by InChIKey
     activities = get_chembl_id_by_inchikey(inchi_key)
+'''
+'''
     if activities:
         print("ChEMBL ID:", activities)
     else:
         print("Failed to retrieve ChEMBL ID from InChIKey.")
 else:
     print("Failed to retrieve compound information from PubChem.")
+'''
+
+    # Read the contents of the toxins.json file
+
+# Abre el archivo json y lee los datos
+with open('toxins.json', 'r') as f:
+    data = json.load(f)
+
+# Imprime todas las claves del diccionario:
+
+# Ahora 'data' es un diccionario de Python que contiene los datos del archivo json
+
+
+# Select the desired information from the data dictionary
+# Print the selected information
+import json
+
+# Abre el archivo json y lee los datos
+with open('toxins.json', 'r') as f:
+    data = json.load(f)
+
+# Si data es una lista, imprime las claves del primer diccionario
+import json
+
+# Abre el archivo json y lee los datos
+with open('toxins.json', 'r') as f:
+    data = json.load(f)
+# Si data es una lista, imprime los valores de las claves especificadas para cada diccionario
+
+query_dictionary = {}
+if type(data) is list:
+    for dic in data:
+        chembl_id = dic.get('chembl_id')
+        if chembl_id:  # Si chembl_id no es None o vacío
+            common_name = dic.get('common_name')
+            pubchem_id = dic.get('pubchem_id')
+            query_dictionary[common_name] = [pubchem_id, chembl_id]
+
+total_sequences =1457
+
+
+
+print(query_dictionary)
