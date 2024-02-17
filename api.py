@@ -9,62 +9,109 @@ with open('toxins.json', 'r') as f:
 query_dictionary = {}
 if type(data) is list:
     for dic in data:
+        pubchem_id = dic.get('pubchem_id')
         chembl_id = dic.get('chembl_id')
-        if chembl_id:  # Si chembl_id no es None o vacío
+        if pubchem_id and chembl_id:  # If chembl_id and pubchem_id are not None or empty
             common_name = dic.get('common_name')
-            pubchem_id = dic.get('pubchem_id')
-            query_dictionary[common_name] = [pubchem_id, chembl_id]
+            types = dic.get('types', [])  # Get the list of types
+            type_names = [t.get('type_name') for t in types]  # Extract type_names from the list of types
+            mechanism_of_toxicity = dic.get('mechanism_of_toxicity')
+            description = dic.get('description')
+            metabolism = dic.get('metabolism')
+            toxicity = dic.get('toxicity')
+            lethaldose = dic.get('lethaldose')
+            symptoms = dic.get('symptoms')
+            treatment = dic.get('treatment')
+            health_effects = dic.get('health_effects')
 
-total_sequences =1457
+            query_dictionary[common_name] = [pubchem_id, chembl_id, type_names, mechanism_of_toxicity, description, metabolism, toxicity, lethaldose, symptoms, treatment, health_effects]
+
+
+print(query_dictionary['Benzene'])
 
 cid1 = query_dictionary['Benzene'][0]
 chembl_id1 = query_dictionary['Benzene'][1]
 
-import requests
+for key, value in query_dictionary.items():
+    cid = query_dictionary[key][0]
+
 
 def pubchem_requests(cid):
-    # Request basic compound information
-    basic_url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/property/IUPACName,MolecularFormula,CanonicalSMILES,IsomericSMILES,InChIKey,MolecularWeight/JSON"
-    basic_response = requests.get(basic_url)
-    basic_data = basic_response.json()
+    try:
+        # Request basic compound information
+        basic_url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/property/IUPACName,MolecularFormula,CanonicalSMILES,IsomericSMILES,InChIKey,MolecularWeight/JSON"
+        basic_response = requests.get(basic_url)
+        basic_data = basic_response.json()
+        
+        if 'Fault' in basic_data:
+            print("Error in basic information request:", basic_data['Fault']['Message'])
+            return None
+        
+        # Extract basic compound information
+        properties = basic_data['PropertyTable']['Properties'][0]
+        compound_name = properties.get('IUPACName', 'N/A')
+        chemical_formula = properties.get('MolecularFormula', 'N/A')
+        canonical_smiles = properties.get('CanonicalSMILES', 'N/A')
+        isomeric_smiles = properties.get('IsomericSMILES', 'N/A')
+        molecular_weight = properties.get('MolecularWeight', 'N/A')
+        inchi_key = properties.get('InChIKey', 'N/A')
+        
+        # Request compound description
+        description_url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/description/JSON"
+        description_response = requests.get(description_url)
+        description_data = description_response.json()
+        
+        if 'InformationList' in description_data and 'Information' in description_data['InformationList']:
+            description_info = description_data['InformationList']['Information']
+            for info in description_info:
+                if 'Description' in info:
+                    description = info['Description']
+                    break
+            else:
+                description = 'N/A'
+        else:
+            description = 'N/A'
+        
+        # Request compound creation date
+        creation_url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/dates/JSON"
+        creation_response = requests.get(creation_url)
+        creation_data = creation_response.json()
+        
+        if 'InformationList' in creation_data and 'Information' in creation_data['InformationList']:
+            creation_info = creation_data['InformationList']['Information']
+            for info in creation_info:
+                if 'CreationDate' in info:
+                    creation_year = info['CreationDate'].get('Year', 'N/A')
+                    break
+            else:
+                creation_year = 'N/A'
+        else:
+            creation_year = 'N/A'
+        
+        return compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description, creation_year
     
-    if 'Fault' in basic_data:
-        print("Error:", basic_data['Fault']['Message'])
+    except Exception as e:
+        print("An error occurred:", e)
         return None
-    
-    # Extract basic compound information
-    properties = basic_data['PropertyTable']['Properties'][0]
-    compound_name = properties.get('IUPACName', 'N/A')
-    chemical_formula = properties.get('MolecularFormula', 'N/A')
-    canonical_smiles = properties.get('CanonicalSMILES', 'N/A')
-    isomeric_smiles = properties.get('IsomericSMILES', 'N/A')
-    molecular_weight = properties.get('MolecularWeight', 'N/A')
-    inchi_key = properties.get('InChIKey', 'N/A')
-    
-    # Request compound description
-    description_url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/description/JSON"
-    description_response = requests.get(description_url)
-    description_data = description_response.json()
-    
-    if 'Fault' in description_data:
-        print("Error:", description_data['Fault']['Message'])
-        return None
-    
-    # Extract compound description
-    description = description_data['InformationList']['Information'][1].get('Description', 'N/A')
-    
-    return compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description
 
 # Example usage
-compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description = pubchem_requests(241)
+compound_info = pubchem_requests(2244)
+if compound_info is not None:
+    compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description, creation_year = compound_info
+    print("Compound name:", compound_name)
+    print("Chemical formula:", chemical_formula)
+    print("Canonical SMILES:", canonical_smiles)
+    print("Isomeric SMILES:", isomeric_smiles)
+    print("Molecular weight:", molecular_weight)
+    print("InChI Key:", inchi_key)
+    print("Description:", description)
+    print("Creation year:", creation_year)
 
-print("Compound name:", compound_name)
-print("Chemical formula:", chemical_formula)
-print("Canonical SMILES:", canonical_smiles)
-print("Isomeric SMILES:", isomeric_smiles)
-print("Molecular weight:", molecular_weight)
-print("InChI Key:", inchi_key)
-print("Description:", description)
+
+
+
+
+
 
 
 def get_ghs_pictograms(cid):
@@ -99,7 +146,6 @@ def get_ghs_pictograms(cid):
     return None
 
 
-# Example usage
 pictogram_urls = get_ghs_pictograms(241)
 print(pictogram_urls)
 
