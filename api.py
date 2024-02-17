@@ -16,7 +16,7 @@ if type(data) is list:
             types = dic.get('types', [])  # Get the list of types
             type_names = [t.get('type_name') for t in types]  # Extract type_names from the list of types
             mechanism_of_toxicity = dic.get('mechanism_of_toxicity')
-            description = dic.get('description')
+            description1 = dic.get('description')
             metabolism = dic.get('metabolism')
             toxicity = dic.get('toxicity')
             lethaldose = dic.get('lethaldose')
@@ -24,11 +24,32 @@ if type(data) is list:
             treatment = dic.get('treatment')
             health_effects = dic.get('health_effects')
 
-            query_dictionary[common_name] = [pubchem_id, chembl_id, type_names, mechanism_of_toxicity, description, metabolism, toxicity, lethaldose, symptoms, treatment, health_effects]
+            query_dictionary[common_name] = [pubchem_id, chembl_id, type_names, mechanism_of_toxicity, description1, toxicity, symptoms, treatment, health_effects]
 
+def get_compound_data(query_dictionary, compound_name):
+    return query_dictionary.get(compound_name)
 
-print(query_dictionary['Benzene'])
+# Example usage:
+compound_data = get_compound_data(query_dictionary, 'Benzene')
 
+if compound_data:
+    pubchem_id, chembl_id, type_names, mechanism_of_toxicity, description1, toxicity, symptoms, treatment, health_effects = compound_data
+    print("PubChem ID:", pubchem_id)
+    print("ChEMBL ID:", chembl_id)
+    print("Type Names:", type_names)
+    print("Mechanism of Toxicity:", mechanism_of_toxicity)
+    print("Description:", description1)
+    print("Metabolism:", metabolism)
+    print("Toxicity:", toxicity)
+    print("Lethal Dose:", lethaldose)
+    print("Symptoms:", symptoms)
+    print("Treatment:", treatment)
+    print("Health Effects:", health_effects)
+else:
+    print("Compound not found in the query dictionary.")
+    
+
+identifiers = "tox{number}"
 cid1 = query_dictionary['Benzene'][0]
 chembl_id1 = query_dictionary['Benzene'][1]
 

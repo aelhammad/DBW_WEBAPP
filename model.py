@@ -1,6 +1,21 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from api import pubchem_requests, get_compound_data, get_ghs_pictograms,query_dictionary
+
+
+
+compound_data = get_compound_data(query_dictionary, 'Benzene')
+cid = query_dictionary['Benzene'][0]
+compound_info = pubchem_requests(cid)
+pictogram_urls = get_ghs_pictograms(cid)
+
+if compound_data:
+    pubchem_id, chembl_id, type_names, mechanism_of_toxicity, description1, toxicity, symptoms, treatment, health_effects = compound_data
+
+if compound_info is not None:
+    compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description, creation_year = compound_info
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://toxicbrowser'  # Update with your database URI
@@ -29,12 +44,13 @@ class Entry(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     pubchem_id = db.Column(db.String(10), nullable=False)
     chembl_id = db.Column(db.String(10), nullable=False)
-    inchkey = db.Column(db.String(30), nullable=False)
+    inchi_key = db.Column(db.String(30), nullable=False)
     chemical_formula = db.Column(db.String, nullable=False) # from pubchem
     compound_name = db.Column(db.String(50), nullable=False) # from pubchem
     molecular_weight = db.Column(db.Float) # from pubchem
     type_names = db.Column(db.String(40)) # type of compound: antago, agonist, etc
-    description = db.Column(db.String(200)) # from json and pubchem
+    description = db.Column(db.String(lenght=None)) # from json and pubchem
+    description1 = db.Column(db.String(lenght = None)) # from json and pubchem
     canonical_smiles = db.Column(db.String(200))  # Column for canonical SMILES, pubchem
     isomeric_smiles = db.Column(db.String(200))  # Column for isomeric SMILES, pubchem 
     mechanism_of_toxicity = db.Column(db.String(200))  # from td3
@@ -43,11 +59,11 @@ class Entry(db.Model):
 class Health_effects(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     entry_id = db.Column(db.Integer, db.ForeignKey('entry.id'), nullable=False)
-    health_effect = db.Column(db.String(200))
+    health_effects = db.Column(db.String(200))
 
 class Year(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    year = db.Column(db.Integer, nullable=False)
+    creation_year = db.Column(db.Integer, nullable=False)
     entries = db.relationship('Entry', backref='year')
 
 if __name__ == '__main__':
