@@ -37,7 +37,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Log in")
 
 
-class UniprotForm(FlaskForm):
-    uniprot = StringField(validators=[InputRequired(), Length(min=4, max=10)], render_kw={"placeholder": "ex: P05067"})
+class ToxicForm(FlaskForm):
+    toxic = StringField(validators=[InputRequired(), Length(min=4, max=10)], render_kw={"placeholder": "ex: aspirin, pubchemID, symptons, compound type... "})
 
     submit = SubmitField("Add Sequence")
