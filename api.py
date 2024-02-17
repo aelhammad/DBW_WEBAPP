@@ -1,98 +1,7 @@
 import requests
 import json
 import xml.etree.ElementTree as ET
-def get_compound_info(cid):
-    # Retrieve compound information from PubChem
-    url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/property/IUPACName,MolecularFormula,CanonicalSMILES,IsomericSMILES,InChIKey,MolecularWeight/JSON"
-    response = requests.get(url)
-    data = response.json()
 
-    # Check for errors in the response
-    if 'Fault' in data:
-        print("Error:", data['Fault']['Message'])
-        return None
-    
-    # Extract compound information
-    properties = data['PropertyTable']['Properties'][0]
-    compound_name = properties.get('IUPACName', 'N/A')
-    chemical_formula = properties.get('MolecularFormula', 'N/A')
-    canonical_smiles = properties.get('CanonicalSMILES', 'N/A')
-    isomeric_smiles = properties.get('IsomericSMILES', 'N/A')
-    molecular_weight = properties.get('MolecularWeight', 'N/A')
-    inchi_key = properties.get('InChIKey', 'N/A')
-    
-    return compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key
-
-def get_chembl_id_by_inchikey(inchikey):
-    # Search for ChEMBL ID by InChIKey
-    url = f"https://www.ebi.ac.uk/chembl/api/data/chembl_id_lookup/search?q={inchikey}"
-    response = requests.get(url)
-
-    # Check for errors in the response
-    if response.status_code != 200:
-        print("Failed to search compound in ChEMBL. Status code:", response.status_code)
-        return None
-
-    try:
-        # Parse XML response
-        root = ET.fromstring(response.content)
-
-        # Extract ChEMBL ID from XML
-        chembl_id = root.findtext('.//chembl_id')
-        return chembl_id
-    except Exception as e:
-        print("Failed to parse XML response from ChEMBL:", e)
-        return None
-
-# CID of the compound
-cid = 68749
-
-    # Get compound information from PubChem
-compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key = get_compound_info(cid)
-'''
-if compound_name and chemical_formula:
-    print("Name:", compound_name)
-    print("Chemical Formula:", chemical_formula)
-    print("Canonical SMILES:", canonical_smiles)
-    print("Isomeric SMILES:", isomeric_smiles)
-    print("Molecular Weight:", molecular_weight)
-    print("InChIKey:", inchi_key)
-
-    # Search for compound activities in ChEMBL by InChIKey
-    activities = get_chembl_id_by_inchikey(inchi_key)
-'''
-'''
-    if activities:
-        print("ChEMBL ID:", activities)
-    else:
-        print("Failed to retrieve ChEMBL ID from InChIKey.")
-else:
-    print("Failed to retrieve compound information from PubChem.")
-'''
-
-    # Read the contents of the toxins.json file
-
-# Abre el archivo json y lee los datos
-with open('toxins.json', 'r') as f:
-    data = json.load(f)
-
-# Imprime todas las claves del diccionario:
-
-# Ahora 'data' es un diccionario de Python que contiene los datos del archivo json
-
-
-# Select the desired information from the data dictionary
-# Print the selected information
-import json
-
-# Abre el archivo json y lee los datos
-with open('toxins.json', 'r') as f:
-    data = json.load(f)
-
-# Si data es una lista, imprime las claves del primer diccionario
-import json
-
-# Abre el archivo json y lee los datos
 with open('toxins.json', 'r') as f:
     data = json.load(f)
 # Si data es una lista, imprime los valores de las claves especificadas para cada diccionario
@@ -108,6 +17,99 @@ if type(data) is list:
 
 total_sequences =1457
 
+cid1 = query_dictionary['Benzene'][0]
+chembl_id1 = query_dictionary['Benzene'][1]
+
+import requests
+
+def pubchem_requests(cid):
+    # Request basic compound information
+    basic_url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/property/IUPACName,MolecularFormula,CanonicalSMILES,IsomericSMILES,InChIKey,MolecularWeight/JSON"
+    basic_response = requests.get(basic_url)
+    basic_data = basic_response.json()
+    
+    if 'Fault' in basic_data:
+        print("Error:", basic_data['Fault']['Message'])
+        return None
+    
+    # Extract basic compound information
+    properties = basic_data['PropertyTable']['Properties'][0]
+    compound_name = properties.get('IUPACName', 'N/A')
+    chemical_formula = properties.get('MolecularFormula', 'N/A')
+    canonical_smiles = properties.get('CanonicalSMILES', 'N/A')
+    isomeric_smiles = properties.get('IsomericSMILES', 'N/A')
+    molecular_weight = properties.get('MolecularWeight', 'N/A')
+    inchi_key = properties.get('InChIKey', 'N/A')
+    
+    # Request compound description
+    description_url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/description/JSON"
+    description_response = requests.get(description_url)
+    description_data = description_response.json()
+    
+    if 'Fault' in description_data:
+        print("Error:", description_data['Fault']['Message'])
+        return None
+    
+    # Extract compound description
+    description = description_data['InformationList']['Information'][1].get('Description', 'N/A')
+    
+    return compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description
+
+# Example usage
+compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description = pubchem_requests(241)
+
+print("Compound name:", compound_name)
+print("Chemical formula:", chemical_formula)
+print("Canonical SMILES:", canonical_smiles)
+print("Isomeric SMILES:", isomeric_smiles)
+print("Molecular weight:", molecular_weight)
+print("InChI Key:", inchi_key)
+print("Description:", description)
 
 
-print(query_dictionary)
+def get_ghs_pictograms(cid):
+    # Request GHS classification information
+    ghs_url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/{cid}/JSON/?heading=GHS+Classification"
+    ghs_response = requests.get(ghs_url)
+    ghs_data = ghs_response.json()
+    
+    if 'Fault' in ghs_data:
+        print("Error:", ghs_data['Fault']['Message'])
+        return None
+    
+    # Navigate to the section containing GHS Classification
+    sections = ghs_data['Record']['Section']
+    for section in sections:
+        if section.get('TOCHeading') == 'Safety and Hazards':
+            hazards_section = section.get('Section')
+            for sub_section in hazards_section:
+                if sub_section.get('TOCHeading') == 'Hazards Identification':
+                    ghs_classification_section = sub_section.get('Section')
+                    for sub_sub_section in ghs_classification_section:
+                        if sub_sub_section.get('TOCHeading') == 'GHS Classification':
+                            pictograms_info = sub_sub_section.get('Information')
+                            pictogram_urls = set()  # Use a set to collect unique URLs
+                            for info in pictograms_info:
+                                if info.get('Name') == 'Pictogram(s)':
+                                    pictograms_markup = info.get('Value', {}).get('StringWithMarkup', [])
+                                    for markup in pictograms_markup:
+                                        pictogram_url = markup.get('Markup')[0].get('URL')
+                                        pictogram_urls.add(pictogram_url)  # Add URL to the set
+                            return list(pictogram_urls)  # Convert set back to a list
+    return None
+
+
+# Example usage
+pictogram_urls = get_ghs_pictograms(241)
+print(pictogram_urls)
+
+
+
+
+
+
+
+
+
+
+
