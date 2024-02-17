@@ -36,10 +36,11 @@ class Entry(db.Model):
     inchkey = db.Column(db.String(30), nullable=False)
     chemical_formula = db.Column(db.String, nullable=False)
     compound_name = db.Column(db.String(50), nullable=False)
-    mol_weight = db.Column(db.Float, nullable=False)
-    toxic_type = db.Column(db.String(20), nullable=False) # type of compound: antago, agonist, etc
-    description = db.Column(db.String(200), nullable=False)
-    canonical_smiles = db.Column(db.String(200), nullable=False)  # Column for canonical SMILES
+    mol_weight = db.Column(db.Float)
+    toxic_type = db.Column(db.String(40)) # type of compound: antago, agonist, etc
+    description = db.Column(db.String(200))
+    canonical_smiles = db.Column(db.String(200))  # Column for canonical SMILES
+    isomeric_smiles = db.Column(db.String(200))  # Column for isomeric SMILES
 
 if __name__ == '__main__':
     db.create_all()
