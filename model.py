@@ -18,7 +18,7 @@ if compound_info is not None:
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://toxicbrowser'  # Update with your database URI
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toxicbrowser'  # Update with your database URI
 db = SQLAlchemy(app)
 
 user_entries = db.Table('user_entries',
@@ -49,8 +49,8 @@ class Entry(db.Model):
     compound_name = db.Column(db.String(50), nullable=False) # from pubchem
     molecular_weight = db.Column(db.Float) # from pubchem
     type_names = db.Column(db.String(40)) # type of compound: antago, agonist, etc
-    description = db.Column(db.String(lenght=None)) # from json and pubchem
-    description1 = db.Column(db.String(lenght = None)) # from json and pubchem
+    description = db.Column(db.String(length=None)) # from json and pubchem
+    description1 = db.Column(db.String(length = None)) # from json and pubchem
     canonical_smiles = db.Column(db.String(200))  # Column for canonical SMILES, pubchem
     isomeric_smiles = db.Column(db.String(200))  # Column for isomeric SMILES, pubchem 
     mechanism_of_toxicity = db.Column(db.String(200))  # from td3
@@ -67,6 +67,7 @@ class Year(db.Model):
     entries = db.relationship('Entry', backref='year')
 
 if __name__ == '__main__':
-    db.create_all()
+    with app.app_context():
+        db.create_all()
     # Add your code to create and commit instances to the session here
-    db.session.commit()
+        db.session.commit()
