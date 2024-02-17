@@ -55,6 +55,7 @@ class Entry(db.Model):
     isomeric_smiles = db.Column(db.String(200))  # Column for isomeric SMILES, pubchem 
     mechanism_of_toxicity = db.Column(db.String(200))  # from td3
     treatment = db.Column(db.String(200))  # from td3
+    year_id = db.Column(db.Integer, db.ForeignKey('year.id'), nullable=False)
 
 class Health_effects(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -69,5 +70,29 @@ class Year(db.Model):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    # Add your code to create and commit instances to the session here
+        
+        benzene_entry = Entry(
+            id = 1,
+            pubchem_id=pubchem_id,
+            chembl_id=chembl_id,
+            inchi_key=inchi_key,
+            chemical_formula=chemical_formula,
+            compound_name=compound_name,
+            molecular_weight=molecular_weight,
+            type_names=type_names,
+            description=description,
+            description1=description1,
+            canonical_smiles=canonical_smiles,
+            isomeric_smiles=isomeric_smiles,
+            mechanism_of_toxicity=mechanism_of_toxicity,
+            treatment=treatment
+        )
+        db.session.add(benzene_entry)
+
+        benzene_year = Year(creation_year=creation_year)
+        db.session.add(benzene_year)
+
+        benzene_health_effects = Health_effects(entry_id=benzene_entry.id, health_effects=health_effects)
+        db.session.add(benzene_health_effects)
+
         db.session.commit()
