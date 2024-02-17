@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from api import pubchem_requests, get_compound_data, get_ghs_pictograms,query_dictionary
+import json
 
 
 
@@ -10,13 +11,13 @@ cid = query_dictionary['Benzene'][0]
 compound_info = pubchem_requests(cid)
 pictogram_urls = get_ghs_pictograms(cid)
 
-if compound_data:
-    pubchem_id, chembl_id, type_names, mechanism_of_toxicity, description1, toxicity, symptoms, treatment, health_effects = compound_data
-
-if compound_info is not None:
-    compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description, creation_year = compound_info
+pubchem_id, chembl_id, type_names, mechanism_of_toxicity, description1, toxicity, symptoms, treatment, health_effects = compound_data
 
 
+compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description, creation_year = compound_info
+
+type_names = json.dumps(type_names)
+pictogram_urls = json.dumps(pictogram_urls)
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toxicbrowser'  # Update with your database URI
 db = SQLAlchemy(app)
@@ -55,7 +56,8 @@ class Entry(db.Model):
     isomeric_smiles = db.Column(db.String(200))  # Column for isomeric SMILES, pubchem 
     mechanism_of_toxicity = db.Column(db.String(200))  # from td3
     treatment = db.Column(db.String(200))  # from td3
-    year_id = db.Column(db.Integer, db.ForeignKey('year.id'), nullable=False)
+    year_id = db.Column(db.Integer, db.ForeignKey('year.id'))  # Foreign key reference to Year table
+
 
 class Health_effects(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -69,6 +71,7 @@ class Year(db.Model):
 
 if __name__ == '__main__':
     with app.app_context():
+        db.drop_all()
         db.create_all()
         
         benzene_entry = Entry(
