@@ -2,12 +2,13 @@ from flask import Flask, render_template, redirect, url_for
 # from config import DO THE CONFIG FILE
 # from model import DO THE MODEL FILE
 from forms import SignUpForm, LoginForm # forms for user input sign up, login, search bar
-from api import get_compound_info, get_chembl_id_by_inchikey
 from flask_bcrypt import bcrypt # password hashing
 from flask_login import login_user, login_required, LoginManager, current_user # user authentication and session management
 
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.exceptions import NotFound
+from model import User, Userdata, Entry, Health_effects, Year, Pictograms, TypeName,db
+
 
 app = Flask(__name__)
 # app.config.from_object(config[''])
@@ -62,6 +63,18 @@ def signup():
     return render_template('auth/signup.html', form=form)
 
 
+@app.route('/compound/<int:compound_id>')
+def compound_details(compound_id):
+    # Fetch the compound details from the database using the provided ID
+    compound = Entry.query.get(compound_id)
+
+    # Render a template with the compound details
+    return render_template('get_toxic.html', compound=compound)
+
+
+
+
+'''  
 @app.route('/userspace', methods=['GET', 'POST']) # GET is used when the user navigates to the userspace page, and POST is used when the user submits the search form.
 @login_required # the user must be logged in to access this view
 def userspace(): # the user's personal space
@@ -81,8 +94,9 @@ def userspace(): # the user's personal space
             db.session.commit() # commit the user to the db
     # if the form is not valid, show the userspace page again
     return render_template('userspace.html', form=form, user_sequences=user.sequences)
+'''
 
-
+''' 
 @app.route('') # compound viewer space
 @login_required
 def compound_viewer():
@@ -91,7 +105,7 @@ def compound_viewer():
         return render_template('compound_viewer.html')
     # else:
         return redirect(url_for('userspace'))
-
+'''
 hostedApp = Flask(__name__)
 # hostedApp.config.from_object('config')
 # hostedApp.wsgi_app = DispatcherMiddleware(NotFound(), {f"PREFIX": app})
