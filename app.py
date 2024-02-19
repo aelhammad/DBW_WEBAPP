@@ -1,18 +1,16 @@
 from flask import Flask, render_template, redirect, url_for
-# from config import DO THE CONFIG FILE
-# from model import DO THE MODEL FILE
+from config import config, PREFIX
 from forms import SignUpForm, LoginForm # forms for user input sign up, login, search bar
 from flask_bcrypt import bcrypt # password hashing
 from flask_login import login_user, login_required, LoginManager, current_user # user authentication and session management
-
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.exceptions import NotFound
 from model import User, Userdata, Entry, Health_effects, Year, Pictograms, TypeName,db
 
 
 app = Flask(__name__)
-# app.config.from_object(config[''])
-# db.init_app(app) # initialize the database with the app (sets up the connection)
+app.config.from_object(config['production'])
+db.init_app(app) # initialize the database with the app (sets up the connection)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -70,7 +68,6 @@ def compound_details(compound_id):
 
     # Render a template with the compound details
     return render_template('get_toxic.html', compound=compound)
-
 
 
 

@@ -7,7 +7,7 @@ class DevelopmentConfig():
     SQLALCHEMY_DATABASE_URI = 'sqlite:///toxicbrowser.db'
     SECRET_KEY = 'abcabcabcabcabcabc'
 
-class ProducctionConfig():
+class ProductionConfig():
     DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///toxicbrowser.db'
@@ -15,7 +15,7 @@ class ProducctionConfig():
 
 config = {
     "development": DevelopmentConfig,
-    "producction": ProducctionConfig
+    "production": ProductionConfig
 }
 
 PREFIX = "/toxicbrowser"
