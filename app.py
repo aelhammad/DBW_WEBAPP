@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for
 from config import config, PREFIX
-from forms import SignUpForm, LoginForm # forms for user input sign up, login, search bar
+from forms import SignUpForm, LoginForm, ToxicForm
+from api import get_compound_data
 from flask_bcrypt import bcrypt # password hashing
 from flask_login import login_user, login_required, LoginManager, current_user # user authentication and session management
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
@@ -61,37 +62,34 @@ def signup():
     return render_template('auth/signup.html', form=form)
 
 
-@app.route('/compound/<int:compound_id>')
+@app.route('/get_toxic/<int:compound_id>')
 def compound_details(compound_id):
     # Fetch the compound details from the database using the provided ID
-    compound = Entry.query.get(compound_id)
-
-    # Render a template with the compound details
-    return render_template('get_toxic.html', compound=compound)
-
-
-
-'''  
-@app.route('/userspace', methods=['GET', 'POST']) # GET is used when the user navigates to the userspace page, and POST is used when the user submits the search form.
-@login_required # the user must be logged in to access this view
-def userspace(): # the user's personal space
-    user = db.session.get(User, (int(current_user.id))) # get the user from the db
-    form = UniprotForm() # create a new uniprot form
-    if form.validate_on_submit(): # check if the form has been submitted and if it's valid
-        seqanalysis = Seqanalysis.query.filter_by(uniprot=form.uniprot.data).first() # ask the db for the uniprot sequence
-        if not seqanalysis: # if the sequence doesn't exist, get it from the uniprot api
+    compound = db.session.get(Entry, (int(Entry.id)))
+    if compound in current_user.compounds:
+        return render_template('get_toxic.html', compound=compound)
+    else:
+        return redirect(url_for('home'))
+   
+ 
+@app.route('/userspace', methods=['GET', 'POST']) 
+def userspace():
+    user = db.session.get(User, (int(current_user.id)))
+    form = ToxicForm()
+    if form.validate_on_submit():
+        toxicentry = Entry.query.filter_by(toxic=form.toxic.data).first() # ask the db for the uniprot sequence
+        if not toxicentry: # if the sequence doesn't exist, get it from the uniprot api
             try: # try to get the uniprot info
-                uniprot_info_tuple = get_unipro_info_tuple(form.uniprot.data) # get the uniprot info tuple
-                seqanalysis = Seqanalysis(uniprot=uniprot_info_tuple[0], sequence=uniprot_info_tuple[1], mol_weight=uniprot_info_tuple[2]) # create a new sequence analysis with the uniprot info tuple
+                compound_dictionary = get_compound_data(form.toxic.data) # get the uniprot info tuple
+                toxicentry = Entry(toxic=compound_dictionary.items()) # create a new sequence analysis with the uniprot info tuple
             except Exception as e: # if there's an error, print it
                 print(e)
-        if seqanalysis: # if the sequence exists, add it to the user's sequences
-            user.sequences.append(seqanalysis) # add the sequence to the user's sequences
+        if toxicentry: # if the sequence exists, add it to the user's sequences
+            user.sequences.append(toxicentry) # add the sequence to the user's sequences
             db.session.add(user) # add the user to the db
             db.session.commit() # commit the user to the db
     # if the form is not valid, show the userspace page again
     return render_template('userspace.html', form=form, user_sequences=user.sequences)
-'''
 
 ''' 
 @app.route('') # compound viewer space
@@ -108,4 +106,4 @@ hostedApp = Flask(__name__)
 # hostedApp.wsgi_app = DispatcherMiddleware(NotFound(), {f"PREFIX": app})
 
 if __name__ == '__main__':
-    hostedApp.run(debug=True) # run the app in debug mode, switch off to publish
+    app.run(debug=True) # run the app in debug mode, switch off to publish
