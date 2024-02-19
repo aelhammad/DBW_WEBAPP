@@ -87,7 +87,6 @@ if __name__ == '__main__':
     with app.app_context():
         db.drop_all()
         db.create_all()
-        
         benzene_entry = Entry(
             id = 1,
             pubchem_id=pubchem_id,
