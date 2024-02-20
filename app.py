@@ -64,17 +64,15 @@ def signup():
 
 @app.route('/get_toxic/<int:compound_id>')
 def compound_details(compound_id):
-    # Fetch the compound details from the database using the provided ID
-    compound = db.session.get(Entry, (int(Entry.id)))
-    # if compound in current_user.compounds:
-    #return render_template('get_toxic.html', compound=compound)
-    # else:
-        #breturn redirect(url_for('home'))
+    # Busca la entrada correspondiente al ID del compuesto
+    compound = Entry.query.get(compound_id)
     if compound:
         return render_template('get_toxic.html', compound=compound)
-    else: 
-        return "This compound does not exist in the database. Please try again."
-   
+    else:
+        return "Compuesto no encontrado", 404  # Devuelve un error 404 si el compuesto no se encuentra
+
+
+
  
 @app.route('/userspace', methods=['GET', 'POST']) 
 def userspace():
