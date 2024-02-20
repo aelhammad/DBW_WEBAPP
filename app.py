@@ -84,12 +84,12 @@ def userspace():
                 toxicentry = Entry(toxic=compound_dictionary.items()) # create a new sequence analysis with the uniprot info tuple
             except Exception as e: # if there's an error, print it
                 print(e)
-        if toxicentry: # if the sequence exists, add it to the user's sequences
+        # if toxicentry: # if the sequence exists, add it to the user's sequences
             # user.sequences.append(toxicentry) add the sequence to the user's sequences
             # db.session.add(user) # add the user to the db
             # db.session.commit() # commit the user to the db
     # if the form is not valid, show the userspace page again
-    return render_template('userspace.html', form=form, user_sequences=user.sequences)
+    return render_template('userspace.html', form=form)
 
 ''' 
 @app.route('') # compound viewer space
