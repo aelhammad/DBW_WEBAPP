@@ -31,7 +31,7 @@ def get_compound_data(query_dictionary, compound_name):
 
 # Example usage:
 compound_data = get_compound_data(query_dictionary, 'Benzene')
-
+'''
 if compound_data:
     pubchem_id, chembl_id, type_names, mechanism_of_toxicity, description1, toxicity, symptoms, treatment, health_effects = compound_data
     print("PubChem ID:", pubchem_id)
@@ -48,6 +48,7 @@ if compound_data:
 else:
     print("Compound not found in the query dictionary.")
     
+'''
 
 identifiers = "tox{number}"
 cid1 = query_dictionary['Benzene'][0]
@@ -116,6 +117,7 @@ def pubchem_requests(cid):
         return None
 
 # Example usage
+    ''' 
 compound_info = pubchem_requests(2244)
 if compound_info is not None:
     compound_name, chemical_formula, canonical_smiles, isomeric_smiles, molecular_weight, inchi_key, description, creation_year = compound_info
@@ -128,7 +130,7 @@ if compound_info is not None:
     print("Description:", description)
     print("Creation year:", creation_year)
 
-
+'''
 
 
 
