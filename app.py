@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from config import config, PREFIX
 from forms import SignUpForm, LoginForm, ToxicForm
 from api import get_compound_data
@@ -71,7 +71,20 @@ def compound_details(compound_id):
     else:
         return "Compuesto no encontrado", 404  # Devuelve un error 404 si el compuesto no se encuentra
 
-
+@app.route('/get_toxic', methods=['GET'])
+def get_toxic():
+    # Get the compound ID from the request query parameters
+    compound_id = request.args.get('compound_id')
+    
+    if compound_id:
+        # Fetch compound information from the database based on the provided ID
+        compound = Entry.query.get(compound_id)
+        if compound:
+            # If compound exists, render the template with compound information
+            return render_template('get_toxic.html', compound=compound)
+    
+    # If compound ID is not provided or compound doesn't exist, display an error message
+    return "Compound not found."
 
  
 @app.route('/userspace', methods=['GET', 'POST']) 
