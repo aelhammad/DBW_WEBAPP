@@ -66,15 +66,15 @@ def signup():
 def compound_details(compound_id):
     # Fetch the compound details from the database using the provided ID
     compound = db.session.get(Entry, (int(Entry.id)))
-    if compound in current_user.compounds:
-        return render_template('get_toxic.html', compound=compound)
-    else:
-        return redirect(url_for('home'))
+    # if compound in current_user.compounds:
+    return render_template('get_toxic.html', compound=compound)
+    # else:
+        #breturn redirect(url_for('home'))
    
  
 @app.route('/userspace', methods=['GET', 'POST']) 
 def userspace():
-    user = db.session.get(User, (int(current_user.id)))
+    # user = db.session.get(User, (int(current_user.id)))
     form = ToxicForm()
     if form.validate_on_submit():
         toxicentry = Entry.query.filter_by(toxic=form.toxic.data).first() # ask the db for the uniprot sequence
@@ -85,9 +85,9 @@ def userspace():
             except Exception as e: # if there's an error, print it
                 print(e)
         if toxicentry: # if the sequence exists, add it to the user's sequences
-            user.sequences.append(toxicentry) # add the sequence to the user's sequences
-            db.session.add(user) # add the user to the db
-            db.session.commit() # commit the user to the db
+            # user.sequences.append(toxicentry) add the sequence to the user's sequences
+            # db.session.add(user) # add the user to the db
+            # db.session.commit() # commit the user to the db
     # if the form is not valid, show the userspace page again
     return render_template('userspace.html', form=form, user_sequences=user.sequences)
 
