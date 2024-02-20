@@ -71,19 +71,28 @@ def compound_details(compound_id):
     else:
         return "Compuesto no encontrado", 404  # Devuelve un error 404 si el compuesto no se encuentra
 
+
 @app.route('/get_toxic', methods=['GET'])
 def get_toxic():
-    # Get the compound ID from the request query parameters
-    compound_id = request.args.get('compound_id')
+    # Get the search query from the request query string
+    search_query = request.args.get('search_query')
     
-    if compound_id:
-        # Fetch compound information from the database based on the provided ID
-        compound = Entry.query.get(compound_id)
-        if compound:
-            # If compound exists, render the template with compound information
-            return render_template('get_toxic.html', compound=compound)
+    compound = None
     
-    # If compound ID is not provided or compound doesn't exist, display an error message
+    # Perform the search based on the provided query
+    if search_query:
+        # Fetch compound information from the database based on the provided query
+        compound = Entry.query.filter(
+            (Entry.compound_name == search_query) | 
+            (Entry.id == search_query) |
+            (Entry.inchi_key == search_query)
+        ).first()
+    
+    if compound:
+        # If compound exists, render the template with compound information
+        return render_template('get_toxic.html', compound=compound)
+    
+    # If compound is not found, display an error message or redirect to another page
     return "Compound not found."
 
  
