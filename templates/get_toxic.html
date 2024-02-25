@@ -41,7 +41,7 @@
     <div style="margin-left: 20px;">
         <p><strong>Compound Information:</strong></p><br>
         <!-- Other compound information -->
-        <p><strong>Type of compound:</strong></p>
+        <p><strong>Type of :</strong></p>
         <ul>
             {% for typename in compound.typename[0].type_names.strip('[]').split(', ') %}
                 <li>- {{ typename.strip('\'').strip('"') }}</li>
@@ -50,10 +50,11 @@
         <br>
         <p><strong>Pictogram URLs:</strong></p>
         <ul>
-            {% for pictogram in compound.pictograms %}
-                <li>{{ pictogram.pictogram_urls }}</li>
+            {% for pictogram in compound.pictograms[0].pictogram_urls.strip('[]').split(', ') %}
+                <img src="{{ pictogram.strip('\'').strip('"') }}"> 
             {% endfor %}
         </ul>
+        
     </div>
             
     <div class="center">
