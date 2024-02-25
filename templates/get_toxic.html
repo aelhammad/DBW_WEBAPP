@@ -4,12 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compound Information</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <title>ToxicBrowser</title>
 </head>
 <body>
-    <h1>Compound Information</h1>
-    <p><strong>Compound Name:</strong> {{ compound.compound_name }}</p>
-    <p><strong>Chemical Formula:</strong> {{ compound.chemical_formula }}</p>
-    <p><strong>Molecular Weight:</strong> {{ compound.molecular_weight }}</p>
-    <p><strong>Description:</strong> {{ compound.description }}</p>
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about_us.html">About Us</a></li>
+            <li><a href="user_guide.html">User Guide</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li style="float: right;"><a href="auth/login.html">Login</a></li>
+            <li style="float: right;"><a href="auth/signup.html">Sign Up</a></li>
+        </ul>
+    </nav><br>
+    <div class="center"><h1 id="title"> {{ compound.compound_name }}</h1></div>
+    <div style="margin-left: 20px;">
+        <p><strong>Compound Information:</strong></p><br>
+        <p><strong>Chemical Formula:</strong> {{ compound.chemical_formula }}</p>
+        <p><strong>Molecular Weight:</strong> {{ compound.molecular_weight }}</p>
+        <p><strong>InchiKey:</strong> {{ compound.inchi_key }}</p>
+        <p><strong>Canonical SMILES:</strong> {{ compound.canonical_smiles}}</p>
+        <p><strong>Isomeric SMILES:</strong> {{ compound.isomeric_smiles}}</p>
+        <p><strong>Chembl id:</strong> {{ compound.chembl_id}}</p>
+        <p><strong>Pubchem cid:</strong> {{ compound.pubchem_id }}</p><br>
+        <p><strong>Compound Descriptions:</strong></p><br>
+        <p><strong>Description:</strong> {{ compound.description }}</p><br>
+        <p><strong>Description 2:</strong> {{ compound.description1 }}</p><br><br>
+        <p><strong>Mechanism of toxicity:</strong></p><br>
+        <p>{{compound.mechanism_of_toxicity}}</p><br>
+        <p><strong>Treatment</strong></p><br>
+        <p>{{compound.treatment}}</p><br>
+    </div>
+    <div style="margin-left: 20px;">
+        <p><strong>Compound Information:</strong></p><br>
+        <!-- Other compound information -->
+        <p><strong>Type of compound:</strong></p>
+        <ul>
+            {% for typename in compound.typename[0].type_names.strip('[]').split(', ') %}
+                <li>- {{ typename.strip('\'').strip('"') }}</li>
+            {% endfor %}
+        </ul>
+        <br>
+        <p><strong>Pictogram URLs:</strong></p>
+        <ul>
+            {% for pictogram in compound.pictograms %}
+                <li>{{ pictogram.pictogram_urls }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+            
+    <div class="center">
+        <p><strong>Compound structure</strong></p>
+        <iframe style="width: 500px; height: 300px;" frameborder="0" src="https://embed.molview.org/v1/?mode=balls&cid={{compound.pubchem_id}}"></iframe>
+    </div>      
+          
+    <script>
+        var text = document.getElementById("title").innerHTML;
+        var uppercaseText = text.toUpperCase();
+        document.getElementById("title").innerHTML = uppercaseText;
+    </script>
+    
 </body>
 </html>
