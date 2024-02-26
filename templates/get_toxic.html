@@ -20,14 +20,23 @@
             <li style="float: right;"><a href="auth/signup.html">Sign Up</a></li>
         </ul>
     </nav><br>
-    <div class="center"><h1 id="title"> {{ compound.compound_name }}</h1></div>
-    <div class="center margin-top:50px;">
+    <div class="compound"><h1 id="title"> {{ compound.compound_name }}</h1></header>
+    <br></br>
+        <div class="compound_information">
+        <h3><strong>Pictograms</strong></h3>
+        <ul>
+            {% for pictogram in compound.pictograms[0].pictogram_urls.strip('[]').split(', ') %}
+                <img src="{{ pictogram.strip('\'').strip('"') }}"> 
+            {% endfor %}
+        </ul>
+    </div>
+        <div class="center margin-top:50px;">
         <p><strong>Compound structure</strong></p>
         <iframe style="width: 500px; height: 300px;" frameborder="0" src="https://embed.molview.org/v1/?mode=balls&cid={{compound.pubchem_id}}"></iframe>
     </div>      
 
-    <div style="margin-left: 20px;">
-        <p><strong>Compound Information:</strong></p><br>
+    <div class="compound_information">
+        <h3><strong>Compound Information</strong></h3><br>
         <p><strong>Chemical Formula:</strong> {{ compound.chemical_formula }}</p>
         <p><strong>Molecular Weight:</strong> {{ compound.molecular_weight }}</p>
         <p><strong>InchiKey:</strong> {{ compound.inchi_key }}</p>
@@ -35,33 +44,31 @@
         <p><strong>Isomeric SMILES:</strong> {{ compound.isomeric_smiles}}</p>
         <p><strong>Chembl id:</strong> {{ compound.chembl_id}}</p>
         <p><strong>Pubchem cid:</strong> {{ compound.pubchem_id }}</p><br>
-        <p><strong>Compound Descriptions:</strong></p><br>
+    </div>
+    <div class="descriptions">    
+        <h3><strong>Compound Descriptions</strong></h3><br>
         <p><strong>Description:</strong> {{ compound.description }}</p><br>
         <p><strong>Description 2:</strong> {{ compound.description1 }}</p><br><br>
-        <p><strong>Mechanism of toxicity:</strong></p><br>
+    </div>
+    <div class="toxicity">    
+        <h3><strong>Mechanism of toxicity</strong></h3><br>
         <p>{{compound.mechanism_of_toxicity}}</p><br>
-        <p><strong>Treatment</strong></p><br>
+        <h3><strong>Treatment</strong></h3><br>
         <p>{{compound.treatment}}</p><br>
     </div>
-    <div style="margin-left: 20px;">
-        <p><strong>Compound Information:</strong></p><br>
-        <!-- Other compound information -->
-        <p><strong>Type of :</strong></p>
+
+    <div class="compound_information">
+        <h3><strong>Type of compound</strong></h3>
+        <br></br> 
         <ul>
             {% for typename in compound.typename[0].type_names.strip('[]').split(', ') %}
                 <li>- {{ typename.strip('\'').strip('"') }}</li>
             {% endfor %}
         </ul>
         <br>
-        <p><strong>Pictogram URLs:</strong></p>
-        <ul>
-            {% for pictogram in compound.pictograms[0].pictogram_urls.strip('[]').split(', ') %}
-                <img src="{{ pictogram.strip('\'').strip('"') }}"> 
-            {% endfor %}
-        </ul><br><br>
         
     </div>
-    <footer>
+    <footer class="footer">
         <p>&copy; 2024 ToxicBrowser. All rights reserved.</p>
     </footer>
             

@@ -1,15 +1,16 @@
-html,
-theme {
-    color: #008080;
-    background-color: #f8fae8;
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Martian+Mono:wght@100..800&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Rubik+Broken+Fax&display=swap');
+
+body {
+    color: #484686;
+    background-color: #faf5fb;
   }
 
   p {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Red Hat Display;
     font-size: 16px;
     letter-spacing: 0px;
     word-spacing: 0px;
-    color: #008080;
+    color: #484686;
     font-weight: 400;
     text-decoration: none;
     font-style: normal;
@@ -23,7 +24,7 @@ theme {
 }
 
 .navbar {
-    background-color: #f2f2f2;
+    background-color: #af5d81;
     padding: 10px;
 }
 
@@ -36,18 +37,22 @@ theme {
 
 .navbar li {
     float: left;
+    color: #faf5fb;
 }
 
 .navbar li a {
+    font-family: Martian mono;
+    font-size: 14px;
     display: block;
-    color: #333;
+    color: #faf5fb;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
 .navbar li a:hover {
-    background-color: #ddd;
+    background-color: #484686;
+    border-radius: 50px;
 }
 
 * {
@@ -55,10 +60,17 @@ theme {
     padding: 0px;
 }
 
-#header {
+header {
     margin: auto;
-    width: 500px;
-    font-family: Arial, Helvetica, sans-serif;
+    width: 800px;
+}
+header h1 {
+    font-family: Rubik Broken Fax, sans-serif;
+    font-weight: 400;
+    font-size: 100px;
+    color: #484686;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 ul,
@@ -110,9 +122,14 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #f5f5f5;
+    background-color: #af5d81;
     padding: 10px;
     text-align: center;
+}
+.footer p {
+    font-family: Martian mono;
+    font-size: 12px;
+    color: #faf5fb;
 }
 
 form {
@@ -123,19 +140,23 @@ form {
 }
 
 input[type="text"] {
+    font-family: Red Hat Display;
     padding: 20px;
     width: 70%;
-    border: 1px solid #ddd;
-    border-radius: 5px 5px 0 0;
+    border: 2px solid #ddd;
+    border-radius: 50px;
     outline: none;
 }
 
 button[type="submit"] {
-    background-color: #007bff;
+    font-family: Red Hat Display;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #9ca04c;
     color: #fff;
-    border: 1px solid #007bff;
+    border: 1px solid #9ca04c;
     padding: 15px;
-    border-radius: 0 0 5px 5px;
+    border-radius: 50px;
     cursor: pointer;
     outline: none;
     margin-top: 10px;
@@ -144,8 +165,9 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    background-color: #484686;
+    border-color: #484686;
+    transition: 0.5s;
 }
 
 #header h1 {
@@ -156,24 +178,29 @@ button[type="submit"]:hover {
 }
 
 .collapsible {
-    background-color: #777;
+    font-family: Red Hat Display;
+    font-size: 15px;
+    font-weight: 400;
+    background-color: #4d7444;
     color: white;
+    border-radius: 50px;
     cursor: pointer;
     padding: 20px;
-    width: 50%;
+    width: 20%;
     border: none;
-    text-align: left;
     outline: none;
     font-size: 15px;
     text-align: center;
-    margin-left: 450px;
     margin-top: 20px;
+    justify-content: center;
+    align-items: center;
 
 }
 
 .active,
 .collapsible:hover {
-    background-color: #555;
+    background-color: #484686;
+    transition: 0.5s;
 
 }
 
@@ -182,27 +209,138 @@ button[type="submit"]:hover {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-    background-color: #f1f1f1;
+    background-color: #cabae3;
     width: 48%;
-    margin-left: 450px;
+    margin: 20px auto;
 
 }
 
 .submenu {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 10px;
+    align-items: center;
 }
 
-.submenu a {
-    color: black;
-    text-decoration: none;
+.submenu li a {
+    font-family: Red Hat Display;
+    background-color: #9ca04c;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 0px;
+    border-radius: 50px;
     margin-right: 10px;
+    margin-top: 5px;
 }
 
-.submenu a:hover {
-    background-color: #ddd;
+.submenu li a:hover {
+    background-color: #484686;
+    transition: 0.5s;
+}
+
+compound {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+    .compound h1 {
+        font-family: Martian mono;
+        font-size: 40px;
+        font-weight: 700;
+        color: #484686;
+        margin-right: 10px;
+        text-align: left;
+        margin-left: 30px;
+    }
+
+iframe {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: 10px;
+}
+
+compound_information {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 40px;
+}
+.compound_information h3 {
+    font-family: Martian mono;
+    font-size: 20px;
+    font-weight: 700;
+    color: #484686;
+    margin-left: 30px;
+    text-align: left;
+}
+.compound_information p {
+    font-family: Red Hat Display;
+    font-size: 16px;
+    font-weight: 400;
+    color: #484686;
+    margin-left: 30px;
+    margin-right: 30px;
+    text-align: left;
+}
+
+.compound_information ul {
+    font-family: Red Hat Display;
+    font-size: 16px;
+    font-weight: 400;
+    color: #484686;
+    margin-left: 30px;
+    text-align: left;
+}
+
+descriptions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.descriptions h3 {
+    font-family: Martian mono;
+    font-size: 20px;
+    font-weight: 700;
+    color: #484686;
+    margin-left: 30px;
+    text-align: left;
+}
+.descriptions p {
+    font-family: Red Hat Display;
+    font-size: 16px;
+    font-weight: 400;
+    color: #484686;
+    margin-left: 30px;
+    margin-right: 30px;
+    text-align: left;
+}
+
+toxicity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}   
+.toxicity h3 {
+    font-family: Martian mono;
+    font-size: 20px;
+    font-weight: 700;
+    color: #484686;
+    margin-left: 30px;
+    text-align: left;
+}
+
+.toxicity p {
+    font-family: Red Hat Display;
+    font-size: 16px;
+    font-weight: 400;
+    color: #484686;
+    margin-left: 30px;
+    margin-right: 30px;
+    text-align: left;
 }
