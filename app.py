@@ -62,14 +62,14 @@ def signup():
     return render_template('auth/signup.html', form=form)
 
 
-@app.route('/get_toxic/<int:compound_id>')
-def compound_details(compound_id):
+#@app.route('/get_toxic/<int:compound_id>')
+#def compound_details(compound_id):
     # Busca la entrada correspondiente al ID del compuesto
-    compound = Entry.query.get(compound_id)
-    if compound:
-        return render_template('get_toxic.html', compound=compound)
-    else:
-        return "Compuesto no encontrado", 404  # Devuelve un error 404 si el compuesto no se encuentra
+ #   compound = Entry.query.get(compound_id)
+  #  if compound:
+   #     return render_template('get_toxic.html', compound=compound)
+    #else:
+     #   return "Compuesto no encontrado", 404  # Devuelve un error 404 si el compuesto no se encuentra
 
 
 @app.route('/get_toxic', methods=['GET'])
@@ -93,7 +93,7 @@ def get_toxic():
         return render_template('get_toxic.html', compound=compound)
     
     # If compound is not found, display an error message or redirect to another page
-    return "Compound not found."
+    return render_template('not_found.html')
 
  
 @app.route('/userspace', methods=['GET', 'POST']) 
