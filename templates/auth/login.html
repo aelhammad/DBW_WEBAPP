@@ -1,7 +1,8 @@
-{% extends '../home.html' %}
+{% extends 'base.html' %}
+
 {% block title %}Login{% endblock %}
 
-{% block body %}
+{% block content %}
 <form class="form-signin text-center" action="{{ url_for('login') }}" method="post">
   {{ form.hidden_tag() }}
     <h1 class="h3 mb-3 fw-normal">Please Log in</h1>
