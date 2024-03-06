@@ -203,7 +203,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,6 +212,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'allal.elhommad01@estudiant.upf.edu','$2b$12$sHgCKIeylPZ8bmRi8m6Z6uICb3ynGELh8mPz4zeY4vuj7ZJhNS7Bu'),(2,'hola@hola.com','$2b$12$vCJJHQ9YdhMU9dmuT/jzm.eJ0VF1xgY1zVQm55jzVRoMISETZJagu'),(3,'hola@gmail.com','$2b$12$9gy7apCowjAufi9.Wrb4LuboaY1rdPOMrpMnpyR.Md87xY.zwFC2q'),(4,'martagn18@gmail.com','$2b$12$EWb0HbC.ceeQIFbHQtMQB.FW0fG9Ampep./U5zB8.eALQF.Ni6OSC');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,7 +259,7 @@ CREATE TABLE `userdata` (
   UNIQUE KEY `id` (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `userdata_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,6 +268,7 @@ CREATE TABLE `userdata` (
 
 LOCK TABLES `userdata` WRITE;
 /*!40000 ALTER TABLE `userdata` DISABLE KEYS */;
+INSERT INTO `userdata` VALUES (1,'Allal','el Hommad','UPF',1),(2,'jjj','kjjjjj','upief',2),(3,'jjj','kjjjjj','upief',3),(4,'marta','garcia','upief',4);
 /*!40000 ALTER TABLE `userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -303,4 +305,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-05 23:46:04
+-- Dump completed on 2024-03-06 17:57:41
