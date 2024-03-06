@@ -7,6 +7,7 @@ from flask_login import login_user, login_required, LoginManager, current_user #
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.exceptions import NotFound
 from model import User, Userdata, Entry, Health_effects, Year, Pictograms, TypeName,db
+from flask import jsonify
 
 
 app = Flask(__name__)
@@ -25,6 +26,15 @@ def load_user(user_id):
 @app.route('/')
 def home():
     return render_template('home.html') # generates the website from the template
+@app.route('/about')
+def about():
+    return render_template('about_us.html') # generates the website from the template
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+@app.route('/guide')
+def guide():
+    return render_template('user_guide.html')
 
 
 @app.route('/login', methods=['GET', 'POST']) # GET is used when the user navigates to the login page, and POST is used when the user submits the login form.
@@ -94,6 +104,15 @@ def get_toxic():
     
     # If compound is not found, display an error message or redirect to another page
     return render_template('not_found.html')
+
+@app.route('/autocomplete', methods=['GET'])
+def autocomplete():
+    term = request.args.get('term')
+    # Query the database for compound names that start with the user's input
+    matching_compounds = Entry.query.filter(Entry.compound_name.startswith(term)).all()
+    # Extract the compound names from the query results
+    suggestions = [compound.compound_name for compound in matching_compounds]
+    return jsonify(suggestions)
 
  
 @app.route('/userspace', methods=['GET', 'POST']) 

@@ -344,3 +344,35 @@ toxicity {
     margin-right: 30px;
     text-align: left;
 }
+
+.pictograms {
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px 0;
+    background-color: #f8f9fa; /* Background color */
+    border: 1px solid #ced4da; /* Border color */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Shadow */
+}
+
+.ui-menu-item {
+    padding: 8px 12px; /* Adjust padding as needed */
+    cursor: pointer;
+}
+
+.ui-menu-item:hover {
+    background-color: #e9ecef; /* Hover background color */
+}
+
+.ui-autocomplete .ui-helper-hidden-accessible {
+    display: none !important;
+}
+.ui-helper-hidden-accessible {
+    display: none;
+}

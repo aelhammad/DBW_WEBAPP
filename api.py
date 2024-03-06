@@ -30,7 +30,7 @@ def get_compound_data(query_dictionary, compound_name):
     return query_dictionary.get(compound_name)
 
 # Example usage:
-compound_data = get_compound_data(query_dictionary, 'Benzene')
+#compound_data = get_compound_data(query_dictionary, 'Benzene')
 '''
 if compound_data:
     pubchem_id, chembl_id, type_names, mechanism_of_toxicity, description1, toxicity, symptoms, treatment, health_effects = compound_data
@@ -50,9 +50,9 @@ else:
     
 '''
 
-identifiers = "tox{number}"
-cid1 = query_dictionary['Benzene'][0]
-chembl_id1 = query_dictionary['Benzene'][1]
+#identifiers = "tox{number}"
+#cid1 = query_dictionary['Benzene'][0]
+#chembl_id1 = query_dictionary['Benzene'][1]
 
 for key, value in query_dictionary.items():
     cid = query_dictionary[key][0]
@@ -168,9 +168,9 @@ def get_ghs_pictograms(cid):
                             return list(pictogram_urls)  # Convert set back to a list
     return None
 
-
-pictogram_urls = get_ghs_pictograms(241)
-print(pictogram_urls)
+# Example usage
+#pictogram_urls = get_ghs_pictograms(241)
+#print(pictogram_urls)
 
 
 

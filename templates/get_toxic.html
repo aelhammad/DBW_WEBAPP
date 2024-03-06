@@ -12,23 +12,27 @@
 <body>
     <nav class="navbar">
         <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="about_us.html">About Us</a></li>
-            <li><a href="user_guide.html">User Guide</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li style="float: right;"><a href="auth/login.html">Login</a></li>
-            <li style="float: right;"><a href="auth/signup.html">Sign Up</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/guide">User Guide</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li style="float: right;"><a href="/login">Login</a></li>
+            <li style="float: right;"><a href="/signup">Sign Up</a></li>
         </ul>
     </nav><br>
     <div class="compound"><h1 id="title"> {{ compound.compound_name }}</h1></header>
     <br></br>
         <div class="compound_information">
         <h3><strong>Pictograms</strong></h3>
-        <ul>
-            {% for pictogram in compound.pictograms[0].pictogram_urls.strip('[]').split(', ') %}
-                <img src="{{ pictogram.strip('\'').strip('"') }}"> 
-            {% endfor %}
-        </ul>
+        
+<div class="pictograms">
+    {% for pictogram in compound.pictograms %}
+        <img src="{{ pictogram.pictogram_url }}" alt="Pictogram">
+    {% endfor %}
+</div>
+
+        
+        
     </div>
         <div class="center margin-top:50px;">
         <p><strong>Compound structure</strong></p>
@@ -56,17 +60,13 @@
         <h3><strong>Treatment</strong></h3><br>
         <p>{{compound.treatment}}</p><br>
     </div>
-
     <div class="compound_information">
-        <h3><strong>Type of compound</strong></h3>
-        <br></br> 
-        <ul>
-            {% for typename in compound.typename[0].type_names.strip('[]').split(', ') %}
-                <li>- {{ typename.strip('\'').strip('"') }}</li>
-            {% endfor %}
-        </ul>
-        <br>
-        
+        <h3><strong>Type Names</strong></h3><br>
+            <ul>
+                {% for type_name in compound.type_names %}
+                    <li>&#9864;     {{ type_name.type_name }}</li>
+                {% endfor %}<br><br>
+            </ul>
     </div>
     <footer class="footer">
         <p>&copy; 2024 ToxicBrowser. All rights reserved.</p>
@@ -75,9 +75,46 @@
   
           
     <script>
-        var text = document.getElementById("title").innerHTML;
-        var uppercaseText = text.toUpperCase();
-        document.getElementById("title").innerHTML = uppercaseText;
+        $(function() {
+    $.widget("custom.autocomplete", $.ui.autocomplete, {
+        _renderMenu: function(ul, items) {
+            var self = this;
+            $.each(items, function(index, item) {
+                self._renderItemData(ul, item);
+            });
+            // Remove the message element
+            ul.find("div.ui-menu-item:first").remove();
+        }
+    });
+
+    $("#search_query").autocomplete({
+        source: function(request, response) {
+                    $("#fcb").autocomplete({
+            //your source info
+        messages: {
+                noResults: '',
+                results: function() {}
+            }
+        });
+
+            // Send an AJAX request to your Flask backend
+            $.ajax({
+                url: "/autocomplete", // Update with your Flask endpoint for autocomplete
+                dataType: "json",
+                data: {
+                    term: request.term
+                },
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 3 // Minimum characters before autocomplete kicks in
+    });
+});
+
+
+
     </script>
     
 </body>
