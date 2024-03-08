@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../static/css/styles.css">
     <title>Contact Page</title>
 </head>
 <body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about_us">About Us</a></li>
+            <li><a href="/guide">User Guide</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li style="float: right;"><a href="/login">Login</a></li>
+            <li style="float: right;"><a href="/signup">Sign Up</a></li>
+        </ul>
+    </nav>
     <h1>Contact Us</h1>
     
     <form action="/send-mail" method="POST">
@@ -18,5 +31,9 @@
         
         <input type="submit" value="Send">
     </form>
+    
+    <footer class="footer">
+        <p>&copy; 2024 ToxicBrowser. All rights reserved.</p>
+    </footer>
 </body>
 </html>
