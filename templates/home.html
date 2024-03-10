@@ -43,7 +43,7 @@
             <div class="submenu">
                 <div class="nav">
                     <ul>
-                        <li><a href="#">Organ Toxicity</a>
+                        <li><a href="#">Pictogram</a>
                             <ul>
                                 <li><a href="#">Submenu1</a></li>
                                 <li><a href="#">Submenu2</a></li>
@@ -57,10 +57,9 @@
                     <ul>
                         <li><a href="#">Component Type</a>
                             <ul>
-                                <li><a href="#">Submenu1</a></li>
-                                <li><a href="#">Submenu2</a></li>
-                                <li><a href="#">Submenu3</a></li>
-                                <li><a href="#">Submenu4</a></li>
+                                {% for type_name in compound_types %}
+                                    <li><a href="{{ url_for('filtered_compounds', type_id=type_name.id) }}">{{ type_name.type_name }}</a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                     </ul>

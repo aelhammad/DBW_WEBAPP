@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about_us.html">About Us</a></li>
+            <li><a href="user_guide.html">User Guide</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li style="float: right;"><a href="auth/login.html">Login</a></li>
+            <li style="float: right;"><a href="auth/signup.html">Sign Up</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Filtered Compounds</h1>
+        <ul>
+            {% for compound in compounds %}
+                <li>
+                    <a href="{{ url_for('compound_details', compound_id=compound.id) }}">{{ compound.compound_name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 ToxicBrowser. All rights reserved.</p>
+    </footer>
+</body>
+</html>

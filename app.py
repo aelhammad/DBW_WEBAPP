@@ -72,16 +72,6 @@ def signup():
     return render_template('auth/signup.html', form=form)
 
 
-#@app.route('/get_toxic/<int:compound_id>')
-#def compound_details(compound_id):
-    # Busca la entrada correspondiente al ID del compuesto
- #   compound = Entry.query.get(compound_id)
-  #  if compound:
-   #     return render_template('get_toxic.html', compound=compound)
-    #else:
-     #   return "Compuesto no encontrado", 404  # Devuelve un error 404 si el compuesto no se encuentra
-
-
 @app.route('/get_toxic', methods=['GET'])
 def get_toxic():
     # Get the search query from the request query string
@@ -115,6 +105,18 @@ def autocomplete():
     return jsonify(suggestions)
 
  
+@app.route('/compound_types')
+def compound_types():
+    compound_types = TypeName.query.all()
+    return render_template('home.html', compound_types=compound_types)
+
+@app.route('/filtered_compounds/<int:type_id>')
+def filtered_compounds(type_id):
+    # Query the database for compounds with the specified type ID
+    compounds = Entry.query.filter_by(type_id=type_id).all()
+    return render_template('advanced.html', compounds=compounds)
+
+
 @app.route('/userspace', methods=['GET', 'POST']) 
 def userspace():
     # user = db.session.get(User, (int(current_user.id)))

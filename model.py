@@ -9,7 +9,8 @@ from sqlalchemy import text
 
 compounds = query_dictionary.keys()
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dbwapp:toxicdb33@localhost/toxbrowser'  # Update with your database URI
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dbwapp:toxicdb33@localhost/toxbrowser'  # Update with your database URI
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toxicdb.sqlite3'
 db = SQLAlchemy(app)
 
 user_entries = db.Table('user_entries',
