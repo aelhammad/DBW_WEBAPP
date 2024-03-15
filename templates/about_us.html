@@ -1,46 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="../static/css/styles.css">
-    <title>About Us</title>
-</head>
+{% extends "base.html" %}
 
-<body>
-    <nav class="navbar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about_us">About Us</a></li>
-            <li><a href="/guide">User Guide</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li style="float: right;"><a href="/login">Login</a></li>
-            <li style="float: right;"><a href="/signup">Sign Up</a></li>
-        </ul>
-    </nav>
-    <div class="about_us">
-        <h1>About Us</h1>
-    </div>
+{% block title %}
+    About Us
+{% endblock %}
 
-    <main>
-        <div class="about_us">
-            <h2>Our Story</h2>
-                <div class="container">
-                    <p>We are a team of students of the Bioinformatics for Health Sciences Master's degree at Universitat Pompeu Fabra in Barcelona and the following web application is our main project for the subject of Databases and Web Development. Our aim was to create a managable database of both organic and inorganic toxic substances and provide users with comprehensive information on their chemical properties, toxicity, as well as how to treat possible intoxications.</p>
-                    <p>*insertar una foto bien chula aqui donde salimos todos*</p>
-                </div>
-            <h2>Meet Our Team!</h2>
-            <ul>
-                <li><a href="https://formacio.bq.ub.edu/~u273215/">Allal</a></li>
-                <li><a href="https://formacio.bq.ub.edu/~u276051/">María</a></li>
-                <li><a href="https://formacio.bq.ub.edu/~u280398/">Marta</a></li>
-                <li><a href="https://formacio.bq.ub.edu/~u230892/">Elizaveta</a></li>
-            </ul>
+{% block content %}
+
+<div class="about_us">
+    <h2>Our Story</h2>
+        <div class="container">
+            <p>We are a team of students of the Bioinformatics for Health Sciences Master's degree at Universitat Pompeu Fabra in Barcelona and the following web application is our main project for the subject of Databases and Web Development. Our aim was to create a managable database of both organic and inorganic toxic substances and provide users with comprehensive information on their chemical properties, toxicity, as well as how to treat possible intoxications.</p>
+            <p>*insertar una foto bien chula aqui donde salimos todos*</p>
         </div>
-    </main>
+    <h2>Meet Our Team!</h2>
+        <ul>
+            <li><a href="https://formacio.bq.ub.edu/~u273215/">Allal</a></li>
+            <li><a href="https://formacio.bq.ub.edu/~u276051/">María</a></li>
+            <li><a href="https://formacio.bq.ub.edu/~u280398/">Marta</a></li>
+            <li><a href="https://formacio.bq.ub.edu/~u230892/">Elizaveta</a></li>
+        </ul>
+</div>
 
-    <footer class="footer">
-        <p>&copy; 2024 ToxicBrowser. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+<script src="../static/js/scripts.js"></script>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+

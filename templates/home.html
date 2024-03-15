@@ -1,54 +1,28 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="../static/css/styles.css">
-    <title>ToxicBrowser</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+{% block title %}
+    Home
+{% endblock %}
 
+{% block content %}
 
-</head>
-
-<body>
-    <nav class="navbar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about_us">About Us</a></li>
-            <li><a href="/guide">User Guide</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li style="float: right;"><a href="/login">Login</a></li>
-            <li style="float: right;"><a href="/signup">Sign Up</a></li>
-        </ul>
-    </nav>
-
-    <header>
-        <div class="center" style="margin-top: 150px;">
-            <h1>Toxic Browser</h1>
-        </div>
-    </header>
-
+<div class="center">
+    <form action="/get_toxic" method="GET">
+        <input type="text" name="search_query" id="search_query" placeholder="Enter compound name, ID, or InChIKey">
+        <button type="submit">Search</button>
+    </form>
+</div>
     <div class="center">
-        <form action="/get_toxic" method="GET">
-            <input type="text" name="search_query" id="search_query" placeholder="Enter compound name, ID, or InChIKey">
-            <button type="submit">Search</button>
-        </form>
-    </div>
-
-    <div class="center">
-        <button class="collapsible">Advanced search</button>
+        <button class="collapsible">Other search options</button>
         <div class="content">
             <div class="submenu">
                 <div class="nav">
                     <ul>
                         <li><a href="#">Pictogram</a>
                             <ul>
-                                <li><a href="#">Submenu1</a></li>
-                                <li><a href="#">Submenu2</a></li>
-                                <li><a href="#">Submenu3</a></li>
-                                <li><a href="#">Submenu4</a></li>
+                                {% for pictogram in pictograms %}
+                                    <li><a href="{{ url_for('filtered_compounds_by_pictogram', pictogram_id=pictogram.id) }}"><img src="{{ pictogram.pictogram_url }}" alt="Pictogram"></a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                     </ul>
@@ -67,31 +41,28 @@
             </div>
         </div>
     </div>
-    <script src="../static/js/scripts.js"></script>
-    <footer class="footer">
-        <p>&copy; 2024 ToxicBrowser. All rights reserved.</p>
-    </footer>
-    <script>
-        $(function() {
-            $("#search_query").autocomplete({
-                source: function(request, response) {
-                    // Send an AJAX request to your Flask backend
-                    $.ajax({
-                        url: "/autocomplete", // Update with your Flask endpoint for autocomplete
-                        dataType: "json",
-                        data: {
-                            term: request.term
-                        },
-                        success: function(data) {
-                            response(data);
-                        }
-                    });
-                },
-                minLength: 3 // Minimum characters before autocomplete kicks in
-            });
-        });
-    </script>
-    
-</body>
+<script src="../static/js/scripts.js"></script>
+{% endblock %}
 
-</html>
+{% block scripts %}        
+<script>
+    $(function() {
+        $("#search_query").autocomplete({
+            source: function(request, response) {
+                // Send an AJAX request to your Flask backend
+                $.ajax({
+                    url: "/autocomplete", // Update with your Flask endpoint for autocomplete
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 3 // Minimum characters before autocomplete kicks in
+        });
+     });
+</script>
+{% endblock %}

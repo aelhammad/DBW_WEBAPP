@@ -17,6 +17,14 @@
         {{ form.password(class_="form-control") }}
         <label for="password">Password</label>
     </div>
+    <div class="form-floating mb-3">
+        {{ form.confirm_password(class_="form-control") }}
+        <label for="confirm_password">Confirm Password</label>
+        {% set passworderror = form.errors.get('password') %}
+        {% if passworderror %}
+           <div class="text-danger h6">{{ passworderror[0] }}</div>
+        {% endif %}
+    </div>
     <div class="form-floating mb-1">
         {{ form.name(class_="form-control") }}
         <label for="name">Name</label>

@@ -14,7 +14,10 @@ class SignUpForm(FlaskForm):
 
     password = PasswordField(validators=[InputRequired(), Length(min=4, max=80)],
                              render_kw={"placeholder": "Password"})
-
+    
+    confirm_password = PasswordField(validators=[InputRequired(), Length(min=4, max=80)],
+                                     render_kw={"placeholder": "Confirm Password"})
+    
     name = StringField(validators=[InputRequired(), Length(min=1, max=80)],
                        render_kw={"placeholder": "John"})
 
