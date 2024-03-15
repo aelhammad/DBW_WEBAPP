@@ -116,6 +116,13 @@ def filtered_compounds(type_id):
     compounds = Entry.query.filter_by(type_id=type_id).all()
     return render_template('advanced.html', compounds=compounds)
 
+@app.route('/filtered_compounds_by_pictogram/<int:pictogram_id>')
+def filtered_compounds_by_pictogram(pictogram_id):
+    pictogram = Pictograms.query.get(pictogram_id)
+    if pictogram:
+        compounds = Entry.query.filter(Entry.pictograms.any(id=pictogram_id)).all()
+        return render_template('advanced.html', compounds=compounds)
+
 
 @app.route('/userspace', methods=['GET', 'POST']) 
 def userspace():
