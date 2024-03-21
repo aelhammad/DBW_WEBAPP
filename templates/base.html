@@ -19,8 +19,12 @@
             <li><a href="/about">About Us</a></li>
             <li><a href="/guide">User Guide</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li style="float: right;"><a href="/login">Login</a></li>
-            <li style="float: right;"><a href="/signup">Sign Up</a></li>
+            {% if logged_in %}
+                <li style="float: right;"><a href="/userspace/{{ username }}">Welcome, {{ username }}</a></li>
+            {% else %}
+                <li style="float: right;"><a href="/login">Login</a></li>
+                <li style="float: right;"><a href="/signup">Sign Up</a></li>
+            {% endif %}
         </ul>
     </nav>
 
