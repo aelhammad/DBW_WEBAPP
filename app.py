@@ -133,7 +133,9 @@ def filtered_compounds_by_pictogram(pictogram_id):
     pictogram = Pictograms.query.get(pictogram_id)
     if pictogram:
         compounds = Entry.query.filter(Entry.pictograms.any(id=pictogram_id)).all()
-        return render_template('advanced.html', compounds=compounds)
+        compound_names = [compound.compound_name for compound in compounds]
+        compound_ids = [compound.id for compound in compounds]
+        return render_template('advanced.html', compound_names=compound_names, compound_ids=compound_ids)
     
 @app.route('/userspace', methods=['GET', 'POST']) 
 def userspace():

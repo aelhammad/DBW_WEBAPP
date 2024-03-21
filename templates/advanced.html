@@ -19,12 +19,10 @@
     </nav>
 
     <div class="container">
-        <h1>Filtered Compounds</h1>
+        <h1>Compounds with Pictogram</h1>
         <ul>
-            {% for compound in compounds %}
-                <li>
-                    <a href="{{ url_for('compound_details', compound_id=compound.id) }}">{{ compound.compound_name }}</a>
-                </li>
+            {% for compound_name, compound_id in zip(compound_names, compound_ids) %}
+                <li><a href="{{ url_for('get_toxic', compound_id=compound_id) }}">{{ compound_name }}</a></li>
             {% endfor %}
         </ul>
     </div>
