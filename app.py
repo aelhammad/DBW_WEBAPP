@@ -45,11 +45,10 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
-            logging.info(f"Retrieved hashed password: {User.password}")
+            logging.info(f"Retrieved hashed password: {user.password}")
             logging.info(f"Form password before encoding: {form.password.data}")
-            encoded_password = form.password.data.encode('utf8')
-            logging.info(f"Form password after encoding: {encoded_password}")
-            if bcrypt.checkpw(encoded_password, User.password):
+            entered_password = form.password.data.encode('utf-8')  # Get the raw password from the form
+            if bcrypt.checkpw(entered_password, user.password.encode('utf-8')):  # Encode the hashed password from the database
                 login_user(user)
                 return redirect(url_for('userspace'))
             else:
@@ -59,6 +58,7 @@ def login():
             logging.error("User not found.")
             loginerror = "Invalid email or password."
     return render_template('auth/login.html', form=form, loginerror=loginerror)
+
 
 
 
