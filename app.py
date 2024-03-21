@@ -27,7 +27,8 @@ def load_user(user_id):
 @app.route('/')
 def home():
     pictograms = Pictograms.query.all()
-    return render_template('home.html', pictograms=pictograms)
+    type_names = TypeName.query.all()
+    return render_template('home.html', pictograms=pictograms, type_names=type_names)
 
 @app.route('/about')
 def about():
