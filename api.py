@@ -132,11 +132,6 @@ if compound_info is not None:
 
 '''
 
-
-
-
-
-
 def get_ghs_pictograms(cid):
     # Request GHS classification information
     ghs_url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/{cid}/JSON/?heading=GHS+Classification"

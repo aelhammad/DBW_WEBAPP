@@ -18,12 +18,23 @@ user_entries = db.Table('user_entries',
                         db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
                         )
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     email = db.Column(db.String(40), nullable=False, unique=True)
-    password = db.Column(db.String(120), nullable=False)
+    password = db.Column(db.BINARY(60), nullable=False)  # Store hashed password as bytes
     user_data = db.relationship('Userdata', backref='user')
     entries = db.relationship('Entry', secondary='user_entries', backref='users')
+
+    def set_password(self, password):
+        """Hashes the provided password and sets it as the user's password."""
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        self.password = hashed_password
+
+    def check_password(self, password):
+        """Checks if the provided password matches the user's stored hashed password."""
+        return bcrypt.checkpw(password.encode('utf-8'), self.password)
+
 
 class Userdata(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)

@@ -8,6 +8,7 @@ from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.exceptions import NotFound
 from model import User, Userdata, Entry, Health_effects, Year, Pictograms, TypeName,db
 from flask import jsonify
+import logging
 
 
 app = Flask(__name__)
@@ -32,25 +33,33 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
 @app.route('/guide')
 def guide():
     return render_template('user_guide.html')
 
-
-@app.route('/login', methods=['GET', 'POST']) # GET is used when the user navigates to the login page, and POST is used when the user submits the login form.
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     loginerror = None
     form = LoginForm()
-    if form.validate_on_submit(): # check if the form has been submitted and if it's valid
-        user = User.query.filter_by(email=form.email.data).first() # ask the db for user email
-        if user: # if user exists check the password
-            if (form_password := form.password.data):
-                if bcrypt.checkpw(form_password.encode('utf8'), user.password): # hash the password to see if it matches the email
-                    login_user(user) # log the user in
-                    return redirect(url_for('userspace')) # redirect them to their userspace
-        # if the user doesn't exist or the password is wrong, show an error message
-        loginerror = "Invalid email or password."
-    return render_template('auth/login.html', form=form, loginerror=loginerror) # get the user to the login page again
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            logging.info(f"Retrieved hashed password: {User.password}")
+            logging.info(f"Form password before encoding: {form.password.data}")
+            encoded_password = form.password.data.encode('utf8')
+            logging.info(f"Form password after encoding: {encoded_password}")
+            if bcrypt.checkpw(encoded_password, User.password):
+                login_user(user)
+                return redirect(url_for('userspace'))
+            else:
+                logging.error("Password comparison failed.")
+                loginerror = "Invalid email or password."
+        else:
+            logging.error("User not found.")
+            loginerror = "Invalid email or password."
+    return render_template('auth/login.html', form=form, loginerror=loginerror)
+
 
 
 @app.route('/signup', methods=['GET', 'POST']) # GET is used when the user navigates to the signup page, and POST is used when the user submits the signup form.
@@ -142,6 +151,12 @@ def userspace():
             # db.session.commit() # commit the user to the db
     # if the form is not valid, show the userspace page again
     return render_template('userspace.html', form=form)
+
+@app.route('/logout')
+def logout():
+    return redirect(url_for('home'))
+    # return render_template('home.html')
+
 
 ''' 
 @app.route('') # compound viewer space

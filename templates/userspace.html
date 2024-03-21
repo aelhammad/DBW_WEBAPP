@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+    User Space
+{% endblock %}
+
+{% block content %}
+
+<h1>User Space</h1>
+<p>Welcome to your user space, {{ current_user.username }}!</p>
+
+<h2>Profile Information</h2>
+<p>Username: {{ current_user.username }}</p>
+<p>Email: {{ current_user.email }}</p>
+
+<h2>Settings</h2>
+<p>Change your settings <a href="/settings">here</a>.</p>
+
+<h2>Logout</h2>
+<p>Logout <a href="/logout">here</a>.</p>
+
+{% endblock %}
+
+

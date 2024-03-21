@@ -1,26 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="../static/css/styles.css">
-    <title>User Guide</title>
-</head>
+{% extends "base.html" %}
 
-<body>
-    <nav class="navbar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about_us">About Us</a></li>
-            <li><a href="/guide">User Guide</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li style="float: right;"><a href="/login">Login</a></li>
-            <li style="float: right;"><a href="/signup">Sign Up</a></li>
-        </ul>
-    </nav>
-    <h1>User Guide</h1>
-    
-    <h2>Table of Contents</h2>
+{% block title %}
+    User Guide
+{% endblock %}
+
+{% block content %}
+
+    <h1>Table of Contents</h1>
     <ul>
         <li><a href="#section1">Section 1</a></li>
         <li><a href="#section2">Section 2</a></li>
@@ -38,9 +24,5 @@
     <p>This is the content of section 3.</p>
     
     <!-- Add more sections and content as needed -->
-    
-</body>
-<footer class="footer">
-    <p>&copy; 2024 ToxicBrowser. All rights reserved.</p>
-</footer>
-</html>
+
+{% endblock %}
