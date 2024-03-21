@@ -22,14 +22,9 @@ user_entries = db.Table('user_entries',
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     email = db.Column(db.String(40), nullable=False, unique=True)
-    username = db.Column(db.String(40), nullable=False, unique=True)
     password = db.Column(db.BINARY(60), nullable=False)  # Store hashed password as bytes
     user_data = db.relationship('Userdata', backref='user')
     entries = db.relationship('Entry', secondary='user_entries', backref='users')
-
-    def create_username(self, email):
-        """Creates a username from the user's email address."""
-        self.username = email.split('@')[0]
     
     def set_password(self, password):
         """Hashes the provided password and sets it as the user's password."""
