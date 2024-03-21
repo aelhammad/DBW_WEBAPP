@@ -26,7 +26,9 @@ def load_user(user_id):
 
 @app.route('/')
 def home():
-    return render_template('home.html') # generates the website from the template
+    pictograms = Pictograms.query.all()
+    return render_template('home.html', pictograms=pictograms)
+
 @app.route('/about')
 def about():
     return render_template('about_us.html') # generates the website from the template
@@ -131,8 +133,7 @@ def filtered_compounds_by_pictogram(pictogram_id):
     if pictogram:
         compounds = Entry.query.filter(Entry.pictograms.any(id=pictogram_id)).all()
         return render_template('advanced.html', compounds=compounds)
-
-
+    
 @app.route('/userspace', methods=['GET', 'POST']) 
 def userspace():
     # user = db.session.get(User, (int(current_user.id)))
