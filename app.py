@@ -102,6 +102,8 @@ def get_toxic():
         ).first()
     
     if compound:
+        current_user.entries.append(compound)
+        db.session.commit()
         # If compound exists, render the template with compound information
         return render_template('get_toxic.html', compound=compound)
     
@@ -139,23 +141,24 @@ def filtered_compounds_by_pictogram(pictogram_id):
         return render_template('advanced.html', compound_names=compound_names, compound_ids=compound_ids)
     
 @app.route('/userspace', methods=['GET', 'POST']) 
+@login_required
 def userspace():
-    # user = db.session.get(User, (int(current_user.id)))
     form = ToxicForm()
+    user = db.session.get(User, (int(current_user.id)))
     if form.validate_on_submit():
-        toxicentry = Entry.query.filter_by(toxic=form.toxic.data).first() 
-        if not toxicentry: 
+        entry = Entry.query.filter_by(toxic=form.toxic.data).first() 
+        if not entry: 
             try: 
                 compound_dictionary = get_compound_data(form.toxic.data) 
-                toxicentry = Entry(toxic=compound_dictionary.items()) 
+                entry = Entry(toxic=compound_dictionary.items()) 
             except Exception as e: # if there's an error, print it
                 print(e)
-        if toxicentry: # if the sequence exists, add it to the user's sequences
-            user.sequences.append(toxicentry) # add the sequence to the user's sequences
+        """if entry: # if the sequence exists, add it to the user's sequences
+            user.entries.append(entry) # add the sequence to the user's sequences
             db.session.add(user) # add the user to the db
-            db.session.commit() # commit the user to the db
-    # if the form is not valid, show the userspace page again
-    return render_template('userspace.html', form=form)
+            db.session.commit() # commit the user to the db"""
+        # if the form is not valid, show the userspace page again
+    return render_template('userspace.html', form=form, user_entries=user.entries)
 
 @app.route('/logout')
 def logout():

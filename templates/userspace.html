@@ -22,20 +22,20 @@
  
 </div>
 
-<div class="row col">
-    <table class="table table-striped">
+<div>
+    <table>
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Compound name</th>
-            <th scope="col">Chemical formula</th>
-            <th scope="col">InchiKey</th>
+            <th>Index</th>
+            <th>Compound name</th>
+            <th>Chemical formula</th>
+            <th>InchiKey</th>
         </tr>
         </thead>
         <tbody>
-        {% for get_toxic in user_entries %}
+        {% for entry in user_entries %}
             <tr>
-                <th scope="row">{{ loop.index }}</th>
+                <th>{{ loop.index }}</th>
                 <td>{{ entry.compound_name }}</td>
                 <td>{{ entry.chemical_formula }}</td>
                 <td>{{ entry.inchi_key }}</td>
