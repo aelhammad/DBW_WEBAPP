@@ -16,16 +16,6 @@
             {% endfor %}
         </div>
 
-        {% if current_user.is_authenticated %}
-        <div class="center">
-            <form action="/add_toxic" method="post">
-                <input type="hidden" name="compound_id" value="{{ compound.id }}">
-                <input type="hidden" name="user_id" value="{{ current_user.id }}">
-                <button type="submit">Add to toxic list</button>
-            </form>
-        </div>
-        {% endif %}
-
             </div>
                 <div class="center margin-top:50px;">
                 <p><strong>Compound structure</strong></p>
