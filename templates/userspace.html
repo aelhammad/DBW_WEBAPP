@@ -19,34 +19,32 @@
         <h3>Settings</h3>
         <p>Change your settings <a href="/settings">here</a>.</p>
 
-        <div class="row col">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Uniprot code</th>
-                    <th scope="col">Sequence</th>
-                    <th scope="col">Molecular Weight</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for seqanalysis in user_sequences %}
-                    <tr>
-                        <th scope="row">{{ loop.index }}</th>
-                        <td>{{ seqanalysis.uniprot }}</td>
-                        {% if seqanalysis.sequence|length > 10 %}
-                            <td><a class="link-dark" href="{{ url_for('seqanalysis', seqanalysis_id=seqanalysis.id) }}">{{ seqanalysis.sequence[:10] }}...</a></td>
-                        {% else %}
-                            <td>{{ seqanalysis.sequence }}</td>
-                        {% endif %}
-                        <td>{{ "%.4f"|format(seqanalysis.mol_weight) }} (g/mol)</td>
-                        </a>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            </div>
-        </div>
+ 
+</div>
+
+<div class="row col">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Compound name</th>
+            <th scope="col">Chemical formula</th>
+            <th scope="col">InchiKey</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for get_toxic in user_entries %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ entry.compound_name }}</td>
+                <td>{{ entry.chemical_formula }}</td>
+                <td>{{ entry.inchi_key }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
     
         <h3>Logout</h3>
         <p>Logout <a href="/logout">here</a>.</p>
