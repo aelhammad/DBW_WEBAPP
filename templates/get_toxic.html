@@ -1,84 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compound Information</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="../static/css/styles.css">
-    <title>ToxicBrowser</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <nav class="navbar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/guide">User Guide</a></li>
-            <li><a href="/contact">Contact</a></li>
-            {% if current_user.is_authenticated %}
-                <li style="float: right;"><a href="/userspace/{{ current_user.name }}">Welcome, {{ username }}</a></li>
-            {% else %}
-                <li style="float: right;"><a href="/login">Login</a></li>
-                <li style="float: right;"><a href="/signup">Sign Up</a></li>
-            {% endif %}
-        </ul>
-    </nav><br>
+{% block title %}
     <div class="compound"><h1 id="title"> {{ compound.compound_name }}</h1></header>
+{% endblock %}
+
+
+{% block content %}
     <br></br>
         <div class="compound_information">
         <h3><strong>Pictograms</strong></h3>
         
-<div class="pictograms">
-    {% for pictogram in compound.pictograms %}
-        <img src="{{ pictogram.pictogram_url }}" alt="Pictogram">
-    {% endfor %}
-</div>
+        <div class="pictograms">
+            {% for pictogram in compound.pictograms %}
+                <img src="{{ pictogram.pictogram_url }}" alt="Pictogram">
+            {% endfor %}
+        </div>
 
-        
-        
-    </div>
-        <div class="center margin-top:50px;">
-        <p><strong>Compound structure</strong></p>
-        <iframe style="width: 500px; height: 300px;" frameborder="0" src="https://embed.molview.org/v1/?mode=balls&cid={{compound.pubchem_id}}"></iframe>
-    </div>      
+        {% if current_user.is_authenticated %}
+        <div class="center">
+            <form action="/add_toxic" method="post">
+                <input type="hidden" name="compound_id" value="{{ compound.id }}">
+                <input type="hidden" name="user_id" value="{{ current_user.id }}">
+                <button type="submit">Add to toxic list</button>
+            </form>
+        </div>
+        {% endif %}
 
-    <div class="compound_information">
-        <h3><strong>Compound Information</strong></h3><br>
-        <p><strong>Chemical Formula:</strong> {{ compound.chemical_formula }}</p>
-        <p><strong>Molecular Weight:</strong> {{ compound.molecular_weight }}</p>
-        <p><strong>InchiKey:</strong> {{ compound.inchi_key }}</p>
-        <p><strong>Canonical SMILES:</strong> {{ compound.canonical_smiles}}</p>
-        <p><strong>Isomeric SMILES:</strong> {{ compound.isomeric_smiles}}</p>
-        <p><strong>Chembl id:</strong> {{ compound.chembl_id}}</p>
-        <p><strong>Pubchem cid:</strong> {{ compound.pubchem_id }}</p><br>
-    </div>
-    <div class="descriptions">    
-        <h3><strong>Compound Descriptions</strong></h3><br>
-        <p><strong>Description:</strong> {{ compound.description }}</p><br>
-        <p><strong>Description 2:</strong> {{ compound.description1 }}</p><br><br>
-    </div>
-    <div class="toxicity">    
-        <h3><strong>Mechanism of toxicity</strong></h3><br>
-        <p>{{compound.mechanism_of_toxicity}}</p><br>
-        <h3><strong>Treatment</strong></h3><br>
-        <p>{{compound.treatment}}</p><br>
-    </div>
-    <div class="compound_information">
-        <h3><strong>Type Names</strong></h3><br>
-            <ul>
-                {% for type_name in compound.type_names %}
-                    <li>&#9864;     {{ type_name.type_name }}</li>
-                {% endfor %}<br><br>
-            </ul>
-    </div>
-    <footer class="footer">
-        <p>&copy; 2024 ToxicBrowser. All rights reserved.</p>
-    </footer>
-            
-  
-          
+            </div>
+                <div class="center margin-top:50px;">
+                <p><strong>Compound structure</strong></p>
+                <iframe style="width: 500px; height: 300px;" frameborder="0" src="https://embed.molview.org/v1/?mode=balls&cid={{compound.pubchem_id}}"></iframe>
+            </div>      
+
+            <div class="compound_information">
+                <h3><strong>Compound Information</strong></h3><br>
+                <p><strong>Chemical Formula:</strong> {{ compound.chemical_formula }}</p>
+                <p><strong>Molecular Weight:</strong> {{ compound.molecular_weight }}</p>
+                <p><strong>InchiKey:</strong> {{ compound.inchi_key }}</p>
+                <p><strong>Canonical SMILES:</strong> {{ compound.canonical_smiles}}</p>
+                <p><strong>Isomeric SMILES:</strong> {{ compound.isomeric_smiles}}</p>
+                <p><strong>Chembl id:</strong> {{ compound.chembl_id}}</p>
+                <p><strong>Pubchem cid:</strong> {{ compound.pubchem_id }}</p><br>
+            </div>
+            <div class="descriptions">    
+                <h3><strong>Compound Descriptions</strong></h3><br>
+                <p><strong>Description:</strong> {{ compound.description }}</p><br>
+                <p><strong>Description 2:</strong> {{ compound.description1 }}</p><br><br>
+            </div>
+            <div class="toxicity">    
+                <h3><strong>Mechanism of toxicity</strong></h3><br>
+                <p>{{compound.mechanism_of_toxicity}}</p><br>
+                <h3><strong>Treatment</strong></h3><br>
+                <p>{{compound.treatment}}</p><br>
+            </div>
+            <div class="compound_information">
+                <h3><strong>Type Names</strong></h3><br>
+                    <ul>
+                        {% for type_name in compound.type_names %}
+                            <li>&#9864;     {{ type_name.type_name }}</li>
+                        {% endfor %}<br><br>
+                    </ul>
+            </div>
+
+{% endblock %}
+
+{% block scripts %}          
     <script>
         $(function() {
     $.widget("custom.autocomplete", $.ui.autocomplete, {
@@ -117,10 +103,5 @@
         minLength: 3 // Minimum characters before autocomplete kicks in
     });
 });
-
-
-
     </script>
-    
-</body>
-</html>
+{% endblock %}

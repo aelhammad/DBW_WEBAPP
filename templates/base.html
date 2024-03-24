@@ -28,11 +28,11 @@
         </ul>
     </nav>
 
-    <header>
-        <div class="center" style="margin-top: 150px;">
-            <h1>Toxic Browser</h1>
-        </div>
-    </header>
+    {% block title %}
+    {% endblock %}
+    
+    {% block header %}
+    {% endblock %}
 
     <main>
         {% block content %}

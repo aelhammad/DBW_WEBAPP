@@ -1,25 +1,57 @@
 {% extends "base.html" %}
 
-{% block title %}
-    User Space
+{% block header %}
+    <div class="about_us">
+        <h1>User Space</h1>
+        <p style="text-align: center;">Welcome to your user space! </p>
+
+    </div>
 {% endblock %}
 
 {% block content %}
 
-<h1>User Space</h1>
-<p>Welcome to your user space! </p>
+<div class="about_us">
 
-<h2>Profile Information</h2>
-<p>Email: {{ current_user.email }}</p>
+        <h3>Profile Information</h3>
 
-<h2>Settings</h2>
-<p>Change your settings <a href="/settings">here</a>.</p>
+        <p>Email: {{ current_user.email }}</p>
+        
+        <h3>Settings</h3>
+        <p>Change your settings <a href="/settings">here</a>.</p>
 
-#Historial 
-
-<h2>Logout</h2>
-<p>Logout <a href="/logout">here</a>.</p>
-
+        <div class="row col">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Uniprot code</th>
+                    <th scope="col">Sequence</th>
+                    <th scope="col">Molecular Weight</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for seqanalysis in user_sequences %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ seqanalysis.uniprot }}</td>
+                        {% if seqanalysis.sequence|length > 10 %}
+                            <td><a class="link-dark" href="{{ url_for('seqanalysis', seqanalysis_id=seqanalysis.id) }}">{{ seqanalysis.sequence[:10] }}...</a></td>
+                        {% else %}
+                            <td>{{ seqanalysis.sequence }}</td>
+                        {% endif %}
+                        <td>{{ "%.4f"|format(seqanalysis.mol_weight) }} (g/mol)</td>
+                        </a>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    
+        <h3>Logout</h3>
+        <p>Logout <a href="/logout">here</a>.</p>
+</div>
 {% endblock %}
+
 
 

@@ -9,6 +9,7 @@ from werkzeug.exceptions import NotFound
 from model import User, Userdata, Entry, Health_effects, Year, Pictograms, TypeName,db
 from flask import jsonify
 import logging
+from flask import redirect, url_for, session
 
 
 app = Flask(__name__)
@@ -149,15 +150,16 @@ def userspace():
                 toxicentry = Entry(toxic=compound_dictionary.items()) 
             except Exception as e: # if there's an error, print it
                 print(e)
-        # if toxicentry: # if the sequence exists, add it to the user's sequences
-            # user.sequences.append(toxicentry) add the sequence to the user's sequences
-            # db.session.add(user) # add the user to the db
-            # db.session.commit() # commit the user to the db
+        if toxicentry: # if the sequence exists, add it to the user's sequences
+            user.sequences.append(toxicentry) # add the sequence to the user's sequences
+            db.session.add(user) # add the user to the db
+            db.session.commit() # commit the user to the db
     # if the form is not valid, show the userspace page again
     return render_template('userspace.html', form=form)
 
 @app.route('/logout')
 def logout():
+    session.clear()
     return redirect(url_for('home'))
     # return render_template('home.html')
 
