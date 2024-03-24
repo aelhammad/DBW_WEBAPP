@@ -33,7 +33,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for entry in user_entries %}
+            {% for entry in user_entries[-10:][::-1] %}
             <tr>
                 <th>{{ loop.index }}</th>
                 <td>{{ entry.compound_name }}</td>
