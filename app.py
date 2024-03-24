@@ -133,18 +133,20 @@ def filtered_compounds_by_pictogram(pictogram_id):
     pictogram = Pictograms.query.get(pictogram_id)
     if pictogram:
         compounds = Entry.query.filter(Entry.pictograms.any(id=pictogram_id)).all()
-        return render_template('advanced.html', compounds=compounds)
+        compound_names = [compound.compound_name for compound in compounds]
+        compound_ids = [compound.id for compound in compounds]
+        return render_template('advanced.html', compound_names=compound_names, compound_ids=compound_ids)
     
 @app.route('/userspace', methods=['GET', 'POST']) 
 def userspace():
     # user = db.session.get(User, (int(current_user.id)))
     form = ToxicForm()
     if form.validate_on_submit():
-        toxicentry = Entry.query.filter_by(toxic=form.toxic.data).first() # ask the db for the uniprot sequence
-        if not toxicentry: # if the sequence doesn't exist, get it from the uniprot api
-            try: # try to get the uniprot info
-                compound_dictionary = get_compound_data(form.toxic.data) # get the uniprot info tuple
-                toxicentry = Entry(toxic=compound_dictionary.items()) # create a new sequence analysis with the uniprot info tuple
+        toxicentry = Entry.query.filter_by(toxic=form.toxic.data).first() 
+        if not toxicentry: 
+            try: 
+                compound_dictionary = get_compound_data(form.toxic.data) 
+                toxicentry = Entry(toxic=compound_dictionary.items()) 
             except Exception as e: # if there's an error, print it
                 print(e)
         # if toxicentry: # if the sequence exists, add it to the user's sequences

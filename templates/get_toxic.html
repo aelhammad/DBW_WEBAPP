@@ -10,14 +10,19 @@
     <title>ToxicBrowser</title>
 </head>
 <body>
+
     <nav class="navbar">
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about">About Us</a></li>
             <li><a href="/guide">User Guide</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li style="float: right;"><a href="/login">Login</a></li>
-            <li style="float: right;"><a href="/signup">Sign Up</a></li>
+            {% if current_user.is_authenticated %}
+                <li style="float: right;"><a href="/userspace/{{ current_user.name }}">Welcome, {{ username }}</a></li>
+            {% else %}
+                <li style="float: right;"><a href="/login">Login</a></li>
+                <li style="float: right;"><a href="/signup">Sign Up</a></li>
+            {% endif %}
         </ul>
     </nav><br>
     <div class="compound"><h1 id="title"> {{ compound.compound_name }}</h1></header>
