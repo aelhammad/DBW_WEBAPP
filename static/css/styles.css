@@ -477,3 +477,26 @@ about_us {
         margin-right: 30px;
         margin-bottom: 15px;
     }
+
+.user-entries-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Red Hat Display;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: justify;
+}
+
+    .user-entries-table th,
+    .user-entries-table td {
+        padding: 8px;
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .user-entries-table th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
+    .user-entries-table tbody tr:nth-child(even) {
+        background-color: #f9f0f9;
+    }
