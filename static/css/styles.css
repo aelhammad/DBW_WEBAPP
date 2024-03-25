@@ -170,6 +170,25 @@ button[type="submit"]:hover {
     transition: 0.5s;
 }
 
+textarea {
+    font-family: Red Hat Display;
+    font-size: 16px;
+    padding: 20px;
+    width: 70%;
+    border: 2px solid #ddd;
+    border-radius: 50px;
+    outline: none;
+}
+
+input[type="email"] {
+    font-family: Red Hat Display;
+    padding: 20px;
+    width: 70%;
+    border: 2px solid #ddd;
+    border-radius: 50px;
+    outline: none;
+}
+
 #header h1 {
     font-family: 'Roboto', sans-serif; 
     font-weight: 500;
@@ -460,8 +479,10 @@ about_us {
 
     .container {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: 2fr;
         grid-column-gap: 20px;
+        grid-row-gap: 20px;
 
     }
     
@@ -476,6 +497,17 @@ about_us {
         margin-left: 30px;
         margin-right: 30px;
         margin-bottom: 15px;
+    }
+
+    .container img {
+        border-radius: 30px;
+        width: 450px;
+        height: 350px;
+    }
+
+    .container ul {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
     }
 
 .user-entries-table {

@@ -169,6 +169,15 @@ def logout():
     return redirect(url_for('home'))
     # return render_template('home.html')
 
+@app.route('/send-mail', methods=['POST'])
+def send_mail():
+    name = request.form['name']
+    email = request.form['email']
+    message = request.form['message']
+    print(f"Received message from {name} ({email}): {message}")
+    return render_template('thank_you.html')
+
+
 
 ''' 
 @app.route('') # compound viewer space
