@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block header %}
     <div class="about_us">
@@ -13,17 +13,17 @@
 <div class="about_us">
 
         <h3>Profile Information</h3>
-
         <p>Email: {{ current_user.email }}</p>
         
-        <h3>Settings</h3>
-        <p>Change your settings <a href="/settings">here</a>.</p>
+
+        <h3>My compounds</h3>
+        <p>View all the toxics you have searched in the following table! </p>
 
  
 </div>
 
 <div>
-    <table class="user-entries-table">
+    <table class="user-entries-table", style="margin-left: 25px; margin-right: 40 px;">
         <thead>
         <tr>
             <th>Index</th>
@@ -44,7 +44,8 @@
         </tbody>
     </table>
 </div>
-    
+
+<div class="about_us">
         <h3>Logout</h3>
         <p>Logout <a href="/logout">here</a>.</p>
 </div>

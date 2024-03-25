@@ -500,3 +500,49 @@ about_us {
     .user-entries-table tbody tr:nth-child(even) {
         background-color: #f9f0f9;
     }
+
+
+.form-floating h3 {
+    color: #9ca04c; 
+    font-family: Martian Mono;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.form-floating h2 {
+    color: #484686; 
+    font-family: Martian Mono;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.form-floating input {
+    font-family: Red Hat Display;
+    font-size: 16px;
+    text-align: center;
+    border-color: #000000; 
+    border-radius: 50px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: auto;
+}
+.form-control {
+    border-color: #000000; 
+    text-align: center;
+    border-radius: 50px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: auto;
+}
+
+
+.error-message {
+    color: red; 
+    font-size: 14px;
+    font-family: Red Hat Display, sans-serif;
+}
+

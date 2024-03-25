@@ -1,41 +1,61 @@
 {% extends 'base.html' %}
-{% block title %}Sign Up{% endblock %}
+
+{% block header %}
+    <div class="about_us">
+        <h1>Sign Up</h1>
+        <p style="text-align: center;">Please sign up to access your user space! By creating a user you will be able to have access to all the compounds you have ever searched in our database. Don't miss out!</p>
+
+    </div>
+{% endblock %}
 
 {% block content %}
 <form class="form-signin text-center" action="{{ url_for('signup') }}" method="post">
     {{ form.hidden_tag() }}
-    <h1 class="h3 mb-3 fw-normal">Please Sign Up</h1>
-    <div class="form-floating mb-1">
+
+    <div class="form-floating">
+        <h2>User information</h2>
+    </div>
+
+    <div class="form-floating">
+        <h3>Email address</h3>
         {{ form.email(class_="form-control") }}
-        <label for="email">Email address</label>
+        <label for="email"></label>
         {% set emailerror = form.errors.get('email') %}
         {% if emailerror %}
            <div class="text-danger h6">{{ emailerror[0] }}</div>
         {% endif %}
     </div>
-    <div class="form-floating mb-3">
+    <div class="form-floating">
+        <h3>Password</h3>
         {{ form.password(class_="form-control") }}
-        <label for="password">Password</label>
+        <label for="password"></label>
     </div>
-    <div class="form-floating mb-3">
+    <div class="form-floating">
+        <h3>Confirm Password</h3>
         {{ form.confirm_password(class_="form-control") }}
-        <label for="confirm_password">Confirm Password</label>
+        <label for="confirm_password"></label>
         {% set passworderror = form.errors.get('password') %}
         {% if passworderror %}
            <div class="text-danger h6">{{ passworderror[0] }}</div>
         {% endif %}
     </div>
-    <div class="form-floating mb-1">
+    <div class="form-floating">
+        <h2>Personal information</h2>
+    </div>
+    <div class="form-floating">
+        <h3>Name</h3>
         {{ form.name(class_="form-control") }}
-        <label for="name">Name</label>
+        <label for="name"></label>
     </div>
-    <div class="form-floating mb-1">
+    <div class="form-floating">
+        <h3>Surname</h3>
         {{ form.surname(class_="form-control") }}
-        <label for="surname">Surname</label>
+        <label for="surname"></label>
     </div>
-    <div class="form-floating mb-3">
+    <div class="form-floating">
+        <h3>Institution</h3>
         {{ form.institution(class_="form-control") }}
-        <label for="institution">Institution</label>
+        <label for="institution"></label>
     </div>
     {{ form.submit(class_="btn btn-lg btn-primary") }}
     
