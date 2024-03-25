@@ -1,38 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="../static/css/styles.css">
-</head>
-<body>
-    <nav class="navbar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/guide">User Guide</a></li>
-            <li><a href="/contact">Contact</a></li>
-            {% if current_user.is_authenticated %}
-                <li style="float: right;"><a href="/userspace/{{ current_user.name }}">Welcome, {{ username }}</a></li>
-            {% else %}
-                <li style="float: right;"><a href="/login">Login</a></li>
-                <li style="float: right;"><a href="/signup">Sign Up</a></li>
-            {% endif %}
-        </ul>
+{% extends 'base.html' %}
 
-    </nav>
+{% block title %}
+    <div class="compound"><h1 id="title"> Advanced search</h1></header>
 
-    <div class="container">
-        <h1>Compounds with Pictogram</h1>
-        <ul>
+{% endblock %}
+{% block content %}
+<div style="display: flex; justify-content: center;"><img src={{pictogram_url}}></div>
+    <table class="user-entries-table">
+        <thead>
+       
+        </thead>
+        <tbody>
             {% for compound in compound_names %}
-                <li><a href="{{ url_for('get_toxic', search_query=compound) }}">{{compound}}</a></li>
+            <tr>
+            <th><li><a href="{{ url_for('get_toxic', search_query=compound) }}">{{compound}}</a></li><th>
+            </tr>
             {% endfor %}
-        </ul>
-    </div>
+
+        </tbody>
+
+    </table><br><br>
+
 
     <footer class="footer">
         <p>&copy; 2024 ToxicBrowser. All rights reserved.</p>
     </footer>
 </body>
 </html>
+{% endblock %}
+
