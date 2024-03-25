@@ -1,27 +1,38 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block header %}
+    <div class="about_us">
+        <h1>Login</h1>
+        <p style="text-align: center;">Please log in to access your user space! </p>
+    </div>
+{% endblock %}
+
 
 {% block content %}
-<form class="form-signin text-center" action="{{ url_for('login') }}" method="post">
-  {{ form.hidden_tag() }}
-    <h1 class="h3 mb-3 fw-normal">Please Log in</h1>
-    <div class="form-floating mb-1">
-      {{ form.email(class_="form-control") }}
-      <label for="email">Email address</label>
-      {% set emailerror = form.errors.get('email') %}
+<form class="form-signin about-us text-center" action="{{ url_for('login') }}" method="post">
+    {{ form.hidden_tag() }}
+
+    <div class="form-floating">
+        <h3>Email address</h3>
+        {{ form.email(class_="form-control") }}
+        <label for="email"></label>
+        {% set emailerror = form.errors.get('email') %}
         {% if emailerror %}
-           <div class="text-danger h6">{{ emailerror[0] }}</div>
+           <div class="error-message">{{ emailerror[0] }}</div>
         {% endif %}
-  </div>
-  <div class="form-floating mb-3">
-      {{ form.password(class_="form-control") }}
-      <label for="password">Password</label>
-  </div>
-  {% if loginerror %}
-     <div class="text-danger h6">{{ loginerror }}</div>
-  {% endif %}
+    </div>
+    <div class="form-floating">
+        <h3>Password</h3>
+        {{ form.password(class_="form-control") }}
+        <label for="password"></label>
+    </div>
+    {% if loginerror %}
+       <div class="error-message">{{ loginerror }}</div>
+    {% endif %}
     {{ form.submit(class_="btn btn-lg btn-primary") }}
-    
 </form>
 {% endblock %}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+
