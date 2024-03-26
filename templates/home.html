@@ -34,17 +34,6 @@
                         </li>
                     </ul>
                 </div>
-                <div class="nav">
-                    <ul>
-                        <li><a href="#">Component Type</a>
-                            <ul>
-                                {% for type_name in compound_types %}
-                                    <li><a href="{{ url_for('filtered_compounds', type_id=type_name.id) }}">{{ type_name.type_name }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
