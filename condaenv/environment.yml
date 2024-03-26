@@ -1,0 +1,16 @@
+name: toxicbrowser
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python==3.11.0
+  - biopython
+  - email-validator
+  - flask
+  - flask-bcrypt
+  - flask-login
+  - flask-sqlalchemy
+  - flask-wtf
+  - mysqlclient
+  - git
+  - requests
